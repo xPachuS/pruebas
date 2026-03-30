@@ -1,9 +1,6 @@
 // contrato.js
 const contrato = {
-  intro: `Yo, ${'${sub}'}, sumiso(a) por voluntad propia y en pleno uso de mis facultades,
-consiento, manifiesto y deseo entregarme plenamente a las manos de ${'${domme}'}, 
-quien será mi Amo / Ama. Por su parte, el Amo / Ama, ${'${domme}'}, consiente y manifiesta
-su intención de tomar posesión de su sumiso(a), ${'${sub}'}. 
+  intro: `Yo, ${'${sub}'}, sumiso(a) por voluntad propia y en pleno uso de mis facultades, consiento, manifiesto y deseo entregarme plenamente a las manos de ${'${domme}'}, quien será mi Amo / Ama. Por su parte, el Amo / Ama, ${'${domme}'}, consiente y manifiesta su intención de tomar posesión de su sumiso(a), ${'${sub}'}. 
 
 Por la firma de este Contrato de Sumisión, se acuerda que el sumiso(a) cede derechos sobre su persona, y que el Amo / Ama toma completa posesión del sumiso(a), reclamando para sí su vida, su mente y su bienestar. Duración del contrato: ${'${duration}'}.`,
 
@@ -61,12 +58,12 @@ El Amo / Ama puede aceptar otros sumisos, siempre considerando el bienestar del 
   ],
 
   firmas: {
-    sumiso: `K) FIRMA DEL SUMISO/A
+    sumiso: `FIRMA DEL SUMISO/A
 Nombre completo: ______________________
 Firma: ________________________________
 Fecha: _________________________________`,
 
-    ama: `L) FIRMA DEL AMO / AMA
+    ama: `FIRMA DEL AMO / AMA
 Nombre completo: ______________________
 Firma: ________________________________
 Fecha: _________________________________`
