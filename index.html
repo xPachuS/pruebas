@@ -16,6 +16,17 @@
 
     <form id="contractForm">
       
+      <div class="form-group">
+        <select id="language" required>
+          <option value="es" selected>Español</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+          <option value="ro">Română</option>
+        </select>
+        <label for="language">Idioma / Language</label>
+      </div>
+      
       <div class="form-row">
         <div class="form-group role-group">
           <select id="domGender" required>
@@ -71,7 +82,6 @@
       <button type="submit">Generar PDF</button>
     </form>
   </div>
-
 
   <script src="contrato.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
