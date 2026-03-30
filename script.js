@@ -11,6 +11,13 @@ form.addEventListener('submit', function(e) {
   const safeword = document.getElementById('safeword').value.trim().toUpperCase();
   const duration = document.getElementById('duration').value.trim();
 
+  // Obtener y formatear la fecha actual (DD/MM/YYYY)
+  const currentDate = new Date().toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
   // Función para primera letra en mayúscula y el resto estrictamente en minúsculas
   const formatPractice = (str) => {
     const trimmed = str.trim();
@@ -229,9 +236,12 @@ form.addEventListener('submit', function(e) {
   
   doc.setFont('times', 'bold');
   doc.text('Fecha:', col1X, y + 20);
+  doc.setFont('times', 'normal');
+  doc.text(currentDate, col1X + 14, y + 20); // Fecha inyectada
   doc.line(col1X + 12, y + 20, col1X + colWidth, y + 20);
 
   // Columna Ama
+  doc.setFont('times', 'bold');
   doc.text('Firma del Amo/Ama:', col2X, y);
   doc.line(col2X + 34, y, col2X + colWidth, y);
   
@@ -242,6 +252,8 @@ form.addEventListener('submit', function(e) {
   
   doc.setFont('times', 'bold');
   doc.text('Fecha:', col2X, y + 20);
+  doc.setFont('times', 'normal');
+  doc.text(currentDate, col2X + 14, y + 20); // Fecha inyectada
   doc.line(col2X + 12, y + 20, col2X + colWidth, y + 20);
 
   // 3. Generar PDF
