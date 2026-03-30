@@ -1,82 +1,110 @@
+const { jsPDF } = window.jspdf;
+
 const form = document.getElementById('contractForm');
-
-// Capitalizar la primera letra de cada palabra
-function capitalizeWords(str) {
-  return str.replace(/\b\w/g, char => char.toUpperCase());
-}
-
-// Reemplazar placeholders en el contrato
-function fillPlaceholders(text, values) {
-  return text
-    .replace(/\$\{sub\}/g, values.sub)
-    .replace(/\$\{domme\}/g, values.domme)
-    .replace(/\$\{duration\}/g, values.duration)
-    .replace(/\$\{safeword\}/g, values.safeword);
-}
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const sub = capitalizeWords(document.getElementById('sub').value.trim());
-  const domme = capitalizeWords(document.getElementById('domme').value.trim());
-  const safeword = capitalizeWords(document.getElementById('safeword').value.trim());
-  const duration = capitalizeWords(document.getElementById('duration').value.trim());
+  // Obtener valores del formulario
+  const domme = document.getElementById('domme').value.trim();
+  const sub = document.getElementById('sub').value.trim();
+  const safeword = document.getElementById('safeword').value.trim();
+  const duration = document.getElementById('duration').value.trim();
 
-  const consented = document.getElementById('consented').value
-    .trim()
-    .split('\n')
-    .filter(line => line)
-    .map(line => capitalizeWords(line));
+  // Convertir prácticas a listas
+  const consentedLines = document.getElementById('consented').value.trim().split('\n');
+  const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n');
 
-  const nonconsented = document.getElementById('nonconsented').value
-    .trim()
-    .split('\n')
-    .filter(line => line)
-    .map(line => capitalizeWords(line));
-
-  const { jsPDF } = window.jspdf;
+  // Crear PDF
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;
   const lineHeight = 7;
-  let y = margin;
+  let y = 25;
 
-  function addText(text, fontStyle = 'normal', fontSize = 12) {
-    doc.setFont('times', fontStyle);
-    doc.setFontSize(fontSize);
+  // Función para añadir texto con paginación
+  function addText(text) {
     const lines = doc.splitTextToSize(text, pageWidth - 2 * margin);
     lines.forEach(line => {
       if (y + lineHeight > pageHeight - margin) {
         doc.addPage();
         y = margin;
       }
-      doc.text(line, margin, y, { maxWidth: pageWidth - 2 * margin, align: 'justify' });
+      doc.text(line, margin, y);
       y += lineHeight;
     });
-    y += 3;
   }
 
+  // Función para añadir listas
   function addList(title, items) {
-    addText(title, 'bold', 14);
-    items.forEach(item => addText(`- ${item}`, 'normal', 12));
+    doc.setFont('times', 'bold');
+    doc.setFontSize(14);
+    if (y + lineHeight > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+    doc.text(title, margin, y);
+    y += lineHeight;
+
+    doc.setFont('times', 'normal');
+    doc.setFontSize(12);
+    items.forEach(item => {
+      if (y + lineHeight > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.text(`- ${item}`, margin + 5, y);
+      y += lineHeight;
+    });
+    y += lineHeight;
   }
 
-  const values = { sub, domme, duration, safeword };
+  // Título del contrato
+  doc.setFont('times', 'bold');
+  doc.setFontSize(22);
+  doc.text('Contrato de Sumisión D/s', pageWidth / 2, y, { align: 'center' });
+  y += 12;
 
-  addText(fillPlaceholders(contrato.intro, values), 'normal', 12);
-  contrato.secciones.forEach(sec => {
-    addText(fillPlaceholders(sec.titulo, values), 'bold', 14);
-    addText(fillPlaceholders(sec.texto, values), 'normal', 12);
+  // Texto de introducción
+  doc.setFont('times', 'normal');
+  doc.setFontSize(12);
+  let introText = contrato.intro
+    .replace('${sub}', sub)
+    .replace(/\${domme}/g, domme)
+    .replace('${duration}', duration)
+    .replace('${safeword}', safeword);
+  addText(introText + '\n\n');
+
+  // Secciones del contrato
+  contrato.secciones.forEach(seccion => {
+    doc.setFont('times', 'bold');
+    doc.setFontSize(14);
+    if (y + lineHeight > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+    doc.text(seccion.titulo, margin, y);
+    y += lineHeight;
+
+    doc.setFont('times', 'normal');
+    doc.setFontSize(12);
+    let textoSeccion = seccion.texto
+      .replace('${sub}', sub)
+      .replace(/\${domme}/g, domme)
+      .replace('${safeword}', safeword);
+    addText(textoSeccion + '\n\n');
   });
 
-  addList('Prácticas Consentidas:', consented);
-  addList('Prácticas No Consentidas:', nonconsented);
+  // Prácticas como listas
+  addList('Prácticas Consentidas:', consentedLines);
+  addList('Prácticas No Consentidas:', nonconsentedLines);
 
-  addText(fillPlaceholders(contrato.firmas.sumiso, values), 'normal', 12);
-  y += 10;
-  addText(fillPlaceholders(contrato.firmas.ama, values), 'normal', 12);
+  // Firmas
+  doc.setFont('times', 'bold');
+  doc.setFontSize(12);
+  addText(contrato.firmas.sumiso + '\n\n' + contrato.firmas.ama);
 
-  const filename = `Contrato_Ds_${sub.replace(/[^a-z0-9]/gi,'_')}_${domme.replace(/[^a-z0-9]/gi,'_')}.pdf`;
-  doc.save(filename);
+  // Guardar PDF
+  doc.save(`Contrato_Ds_${sub}_${domme}.pdf`);
 });
