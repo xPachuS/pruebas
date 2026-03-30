@@ -3,30 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Contrato D/s</title>
+  <title>Generador de Contrato D/s Elegante</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Generador de Contrato D/s</h1>
+    <h1>Contrato D/s</h1>
+    <p class="subtitle">Formulario para generar tu contrato de manera segura y privada</p>
+
     <form id="contractForm">
-      <label for="domme">Nombre de la Ama / Dominante:</label>
-      <input type="text" id="domme" required>
+      <div class="form-group">
+        <label for="domme">Nombre de la Ama / Dominante:</label>
+        <input type="text" id="domme" required>
+      </div>
 
-      <label for="sub">Nombre del Sumiso:</label>
-      <input type="text" id="sub" required>
+      <div class="form-group">
+        <label for="sub">Nombre del Sumiso:</label>
+        <input type="text" id="sub" required>
+      </div>
 
-      <label for="safeword">Palabra de seguridad:</label>
-      <input type="text" id="safeword" required>
+      <div class="form-group">
+        <label for="safeword">Palabra de seguridad:</label>
+        <input type="text" id="safeword" required>
+      </div>
 
-      <label for="consented">Prácticas consentidas (separadas por comas):</label>
-      <textarea id="consented" rows="3" required></textarea>
+      <div class="form-group">
+        <label for="consented">Prácticas consentidas (separadas por comas):</label>
+        <textarea id="consented" rows="3" required></textarea>
+      </div>
 
-      <label for="nonconsented">Prácticas no consentidas (separadas por comas):</label>
-      <textarea id="nonconsented" rows="3" required></textarea>
+      <div class="form-group">
+        <label for="nonconsented">Prácticas no consentidas (separadas por comas):</label>
+        <textarea id="nonconsented" rows="3" required></textarea>
+      </div>
 
-      <label for="duration">Duración del contrato:</label>
-      <input type="text" id="duration" placeholder="Ej: 1 mes, 3 semanas" required>
+      <div class="form-group">
+        <label for="duration">Duración del contrato:</label>
+        <input type="text" id="duration" placeholder="Ej: 1 mes, 3 semanas" required>
+      </div>
 
       <button type="submit">Generar PDF</button>
     </form>
