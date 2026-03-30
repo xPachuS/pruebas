@@ -107,7 +107,7 @@ button:hover {
 
 /* Textareas de prácticas */
 textarea {
-  height: 100px;          /* Más alto para ver varias líneas */
+  height: 90px;          /* Más alto para ver varias líneas */
   resize: none;           /* No se puede cambiar tamaño */
   overflow-y: auto;       /* Scroll vertical si hay más contenido */
   padding: 8px 10px;
