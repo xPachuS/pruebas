@@ -5,35 +5,64 @@
   padding: 0;
 }
 
+/* --- VARIABLES DE COLOR (Modo Claro por defecto) --- */
+:root {
+  --bg-color: #f0f2f5;
+  --container-bg: #ffffff;
+  --text-main: #333333;
+  --text-muted: #666666;
+  --border-color: #cccccc;
+  --label-color: #aaaaaa;
+  --accent-color: #d4af7f;
+  --container-shadow: rgba(0,0,0,0.08);
+}
+
+/* --- VARIABLES DE COLOR (Modo Oscuro) --- */
+body.dark-mode {
+  --bg-color: #121212;
+  --container-bg: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --border-color: #444444;
+  --label-color: #888888;
+  --accent-color: #d4af7f; /* Mantenemos el acento dorado */
+  --container-shadow: rgba(0,0,0,0.5);
+}
+
 body {
   font-family: 'Inter', sans-serif;
-  background: #f0f2f5;
+  background: var(--bg-color);
+  color: var(--text-main);
   display: flex;
   justify-content: center;
   padding: 50px 10px;
+  /* Transición suave entre claro y oscuro */
+  transition: background-color 0.3s ease, color 0.3s ease; 
 }
 
 .container {
-  background: #ffffff;
+  position: relative; /* Necesario para ubicar el botón de la luna */
+  background: var(--container-bg);
   border-radius: 16px;
   padding: 40px 30px;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px var(--container-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 h1 {
   font-family: 'Georgia', serif;
   font-size: 28px;
   text-align: center;
-  color: #d4af7f;
+  color: var(--accent-color);
   margin-bottom: 5px;
 }
 
 .subtitle {
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 30px;
 }
 
@@ -79,12 +108,12 @@ form {
 .form-group select {
   width: 100%;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid var(--border-color);
   background: transparent;
   font-size: 15px;
   padding: 8px 0;
   transition: all 0.3s ease;
-  color: #333;
+  color: var(--text-main);
 }
 
 /* Ajustes específicos para que el select se vea limpio */
@@ -93,11 +122,17 @@ form {
   cursor: pointer;
 }
 
+/* Asegurar que las opciones del select tengan buen contraste en modo oscuro */
+.form-group select option {
+  background: var(--container-bg);
+  color: var(--text-main);
+}
+
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-bottom-color: #d4af7f;
+  border-bottom-color: var(--accent-color);
 }
 
 .form-group label {
@@ -105,7 +140,7 @@ form {
   top: 18px;
   left: 0;
   font-size: 14px;
-  color: #aaa;
+  color: var(--label-color);
   pointer-events: none;
   transition: all 0.3s ease;
 }
@@ -119,12 +154,12 @@ form {
 .form-group select:valid + label {
   top: -5px;
   font-size: 12px;
-  color: #d4af7f;
+  color: var(--accent-color);
 }
 
-/* Botón moderno */
-button {
-  background: #d4af7f;
+/* Botón moderno de envío */
+button[type="submit"] {
+  background: var(--accent-color);
   color: #fff;
   border: none;
   padding: 14px;
@@ -136,7 +171,7 @@ button {
   margin-top: 10px;
 }
 
-button:hover {
+button[type="submit"]:hover {
   background: #b5925f;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -149,7 +184,7 @@ textarea {
   overflow-y: auto;       /* Scroll vertical si hay más contenido */
   padding: 8px 10px;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid var(--border-color);
   font-size: 15px;
   background: transparent;
   transition: border-color 0.3s, box-shadow 0.3s;
@@ -157,6 +192,29 @@ textarea {
 
 textarea:focus {
   outline: none;
-  border-bottom-color: #d4af7f;
+  border-bottom-color: var(--accent-color);
   box-shadow: 0 0 0 2px rgba(212,175,127,0.2);
+}
+
+/* --- ESTILOS DEL BOTÓN MODO OSCURO --- */
+button#theme-toggle {
+  background: transparent;
+  color: var(--text-main);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  width: auto;
+  margin: 0;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+button#theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: none;
+  background: transparent;
 }
