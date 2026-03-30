@@ -5,9 +5,7 @@ consiento, manifiesto y deseo entregarme plenamente a las manos de ${'${domme}'}
 quien será mi Amo / Ama. Por su parte, el Amo / Ama, ${'${domme}'}, consiente y manifiesta
 su intención de tomar posesión de su sumiso(a), ${'${sub}'}. 
 
-Por la firma de este Contrato de Sumisión, se acuerda que el sumiso(a) cede derechos sobre su persona,
-y que el Amo / Ama toma completa posesión del sumiso(a), reclamando para sí su vida, su mente y su bienestar.
-Duración del contrato: ${'${duration}'}.`,
+Por la firma de este Contrato de Sumisión, se acuerda que el sumiso(a) cede derechos sobre su persona, y que el Amo / Ama toma completa posesión del sumiso(a), reclamando para sí su vida, su mente y su bienestar. Duración del contrato: ${'${duration}'}.`,
 
   secciones: [
     {
