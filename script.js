@@ -1,8 +1,53 @@
 const { jsPDF } = window.jspdf;
 
 const form = document.getElementById('contractForm');
+const langSelect = document.getElementById('language');
 
-// Diccionario de traducciones para las etiquetas del PDF
+// --- 1. TRADUCCIONES DE LA INTERFAZ DEL FORMULARIO ---
+const uiTranslations = {
+  es: {
+    title: "Contrato D/s", subtitle: "Genera tu contrato personalizado en PDF", lang: "Idioma", domRole: "Rol Dominante", domFem: "Ama", domMale: "Amo", domName: "Nombre Dominante", subRole: "Rol Sumiso/a", subFem: "Sumisa", subMale: "Sumiso", subName: "Nombre Sumiso/a", safe: "Palabra de seguridad", con: "Prácticas consentidas (separadas por saltos de línea)", non: "Prácticas no consentidas (Límites Duros)", dur: "Duración del contrato (ej: 6 meses)", btn: "Generar PDF"
+  },
+  en: {
+    title: "D/s Contract", subtitle: "Generate your personalized PDF contract", lang: "Language", domRole: "Dominant Role", domFem: "Domme", domMale: "Dom", domName: "Dominant Name", subRole: "Submissive Role", subFem: "Submissive (F)", subMale: "Submissive (M)", subName: "Submissive Name", safe: "Safeword", con: "Consented practices (separated by newlines)", non: "Non-consented practices (Hard Limits)", dur: "Contract duration (e.g., 6 months)", btn: "Generate PDF"
+  },
+  de: {
+    title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Domme", domMale: "Dom", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub (W)", subMale: "Sub (M)", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
+  },
+  it: {
+    title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contratto (es: 6 mesi)", btn: "Genera PDF"
+  },
+  ro: {
+    title: "Contract D/s", subtitle: "Generează-ți contractul PDF personalizat", lang: "Limba", domRole: "Rol Dominant", domFem: "Stăpână", domMale: "Stăpân", domName: "Nume Dominant", subRole: "Rol Supus/ă", subFem: "Supusă", subMale: "Supus", subName: "Nume Supus/ă", safe: "Cuvânt de siguranță", con: "Practici consimțite (separate prin rânduri noi)", non: "Practici neconsimțite (Limite Dure)", dur: "Durata contractului (ex: 6 luni)", btn: "Generează PDF"
+  }
+};
+
+// Evento que cambia los textos al seleccionar un idioma
+langSelect.addEventListener('change', (e) => {
+  const lang = e.target.value;
+  const t = uiTranslations[lang];
+  
+  document.getElementById('ui-title').textContent = t.title;
+  document.getElementById('ui-subtitle').textContent = t.subtitle;
+  document.getElementById('ui-lbl-lang').textContent = t.lang;
+  document.getElementById('ui-lbl-domRole').textContent = t.domRole;
+  document.getElementById('ui-lbl-domName').textContent = t.domName;
+  document.getElementById('ui-lbl-subRole').textContent = t.subRole;
+  document.getElementById('ui-lbl-subName').textContent = t.subName;
+  document.getElementById('ui-lbl-safe').textContent = t.safe;
+  document.getElementById('ui-lbl-con').textContent = t.con;
+  document.getElementById('ui-lbl-non').textContent = t.non;
+  document.getElementById('ui-lbl-dur').textContent = t.dur;
+  document.getElementById('ui-btn-submit').textContent = t.btn;
+  
+  // Cambiar el texto visual de las opciones de los roles sin alterar sus 'values' internos
+  document.querySelector('#domGender option[value="Ama"]').textContent = t.domFem;
+  document.querySelector('#domGender option[value="Amo"]').textContent = t.domMale;
+  document.querySelector('#subGender option[value="Sumisa"]').textContent = t.subFem;
+  document.querySelector('#subGender option[value="Sumiso"]').textContent = t.subMale;
+});
+
+// --- 2. TRADUCCIONES FIJAS DEL PDF ---
 const i18n = {
   es: { title: 'CONTRATO DE SUMISIÓN', durationTitle: 'Duración del Contrato', durationText: 'El presente acuerdo entra en vigor en la fecha de su firma y tendrá una duración de **${duration}**. Sin embargo, ambas partes reconocen que el consentimiento es continuo y puede ser revocado.', practicesCon: 'Prácticas Consentidas', practicesNon: 'Prácticas No Consentidas (Límites Duros)', name: 'Nombre:', date: 'Fecha:', signSub: 'Firma', signDom: 'Firma' },
   en: { title: 'SUBMISSION CONTRACT', durationTitle: 'Contract Duration', durationText: 'This agreement takes effect on the date of its signature and will have a duration of **${duration}**. However, both parties acknowledge that consent is continuous and can be revoked.', practicesCon: 'Consented Practices', practicesNon: 'Non-Consented Practices (Hard Limits)', name: 'Name:', date: 'Date:', signSub: 'Signature', signDom: 'Signature' },
@@ -14,7 +59,7 @@ const i18n = {
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  // 1. Obtener valores
+  // Obtener valores
   const lang = document.getElementById('language').value;
   const domGender = document.getElementById('domGender').value;
   const subGender = document.getElementById('subGender').value;
@@ -22,7 +67,7 @@ form.addEventListener('submit', function(e) {
   const sub = document.getElementById('sub').value.trim();
   const safeword = document.getElementById('safeword').value.trim().toUpperCase();
   const duration = document.getElementById('duration').value.trim();
-  const ui = i18n[lang]; // Carga las etiquetas del idioma
+  const ui = i18n[lang]; 
 
   // Validación de la duración multi-idioma
   const regexDuracion = /\b(día|días|dia|dias|mes|meses|año|años|ano|anos|day|days|month|months|year|years|tag|tage|monat|monate|jahr|jahre|giorno|giorni|mese|mesi|anno|anni|zi|zile|lună|luna|luni|an|ani)\b/i;
@@ -107,7 +152,7 @@ form.addEventListener('submit', function(e) {
     return t;
   };
 
-  // 2. Configuración PDF
+  // 3. Configuración PDF
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -207,7 +252,7 @@ form.addEventListener('submit', function(e) {
     y += 3;
   }
 
-  // --- GENERACIÓN DEL CONTENIDO (Usando el idioma seleccionado) ---
+  // --- 4. GENERACIÓN DEL CONTENIDO (Usando el idioma seleccionado) ---
   const currentContract = contratos[lang];
 
   doc.setFont('times', 'bold');
@@ -293,7 +338,7 @@ form.addEventListener('submit', function(e) {
     y += 12;
   }
 
-  // --- SECCIÓN DE FIRMAS (PÁGINA NUEVA OBLIGATORIA) ---
+  // --- 5. SECCIÓN DE FIRMAS (PÁGINA NUEVA OBLIGATORIA) ---
   doc.addPage();
   y = margin + 10;
   
@@ -350,9 +395,8 @@ form.addEventListener('submit', function(e) {
   y += 15;
   doc.setFont('times', 'bold');
   
-  // Títulos de firma adaptados al idioma y género
-  let firmaSub = lang === 'es' ? `${ui.signSub} ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}` : `${ui.signSub} (${subGender})`;
-  let firmaDom = lang === 'es' ? `${ui.signDom} ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}` : `${ui.signDom} (${domGender})`;
+  let firmaSub = lang === 'es' ? `${ui.signSub} ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}` : `${ui.signSub} (${t.subRole.replace('Role','').trim()})`;
+  let firmaDom = lang === 'es' ? `${ui.signDom} ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}` : `${ui.signDom} (${t.domRole.replace('Role','').trim()})`;
   
   doc.text(firmaSub + ':', col1X, y);
   doc.text(firmaDom + ':', col2X, y);
