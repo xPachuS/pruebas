@@ -269,10 +269,9 @@ function generateContractPDF(data) {
     y += 6;
   }
 
-  // Novedad: Reglas de Exclusividad
+  // Reglas de Exclusividad
   let textoExclusividad = "";
   if (exclusivity === 'total') textoExclusividad = uiTranslations[lang].exclTotal;
-  if (exclusivity === 'bdsm') textoExclusividad = uiTranslations[lang].exclBDSM;
   if (exclusivity === 'open') textoExclusividad = uiTranslations[lang].exclOpen;
 
   let exclHeight = calculateTextHeight(uiTranslations[lang].excl, 13, true) + 1 + calculateTextHeight(textoExclusividad, 11, false, 6) + 6;
@@ -283,7 +282,7 @@ function generateContractPDF(data) {
   addText(textoExclusividad, 11, false, 'left', 6);
   y += 6;
 
-  // Novedad: Tareas Diarias / Rituales
+  // Tareas Diarias / Rituales
   if (dailyTasksLines.length > 0) {
     let tasksTitle = uiTranslations[lang].tasks.replace('(Opcional)','').replace('(Optional)','').replace('(Optionale)','').replace('(Opzionale)','').replace('(Opțional)','').trim();
     let blockHeight = calculateTextHeight(tasksTitle, 13, true) + 1;
