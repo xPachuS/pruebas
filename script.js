@@ -3,6 +3,29 @@ const { jsPDF } = window.jspdf;
 const form = document.getElementById('contractForm');
 const langSelect = document.getElementById('language');
 
+// --- LÓGICA DEL MODO OSCURO ---
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Comprobar si hay un tema guardado previamente
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.classList.add('dark-mode');
+  themeToggle.textContent = '☀️';
+}
+
+themeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+  if (body.classList.contains('dark-mode')) {
+    localStorage.setItem('theme', 'dark');
+    themeToggle.textContent = '☀️';
+  } else {
+    localStorage.setItem('theme', 'light');
+    themeToggle.textContent = '🌙';
+  }
+});
+// -------------------------------
+
 // --- 1. TRADUCCIONES DE LA INTERFAZ DEL FORMULARIO ---
 const uiTranslations = {
   es: {
@@ -15,7 +38,7 @@ const uiTranslations = {
     title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Herrin", domMale: "Herr", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub (W)", subMale: "Sub (M)", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
   },
   it: {
-    title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contratto (es: 6 mesi)", btn: "Genera PDF"
+    title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contrato (es: 6 mesi)", btn: "Genera PDF"
   },
   ro: {
     title: "Contract D/s", subtitle: "Generează-ți contractul PDF personalizat", lang: "Limba", domRole: "Rol Dominant", domFem: "Stăpână", domMale: "Stăpân", domName: "Nume Dominant", subRole: "Rol Supus/ă", subFem: "Supusă", subMale: "Supus", subName: "Nume Supus/ă", safe: "Cuvânt de siguranță", con: "Practici consimțite (separate prin rânduri noi)", non: "Practici neconsimțite (Limite Dure)", dur: "Durata contractului (ex: 6 luni)", btn: "Generează PDF"
@@ -83,10 +106,8 @@ form.addEventListener('submit', function(e) {
   const consentedLines = document.getElementById('consented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
 
-  // --- SOLUCIÓN DE CODIFICACIÓN PARA RUMANO Y GÉNEROS ---
   const cleanText = (text) => {
     let t = text;
-    // 1. Reemplazo de géneros
     if (lang === 'es') {
       t = t.replaceAll('El Amo / el Ama', domGender === 'Amo' ? 'El Amo' : 'La Ama');
       t = t.replaceAll('El Amo/Ama', domGender === 'Amo' ? 'El Amo' : 'La Ama');
@@ -143,19 +164,17 @@ form.addEventListener('submit', function(e) {
       t = t.replaceAll('Supus/ă', subGender === 'Sumiso' ? 'Supus' : 'Supusă');
       t = t.replaceAll('meu/mea', subGender === 'Sumiso' ? 'meu' : 'mea');
       
-      // 2. Normalización de diacríticos para evitar que jsPDF rompa los márgenes y anchos
       t = t.replace(/ă/g, 'a').replace(/Ă/g, 'A')
            .replace(/â/g, 'a').replace(/Â/g, 'A')
            .replace(/î/g, 'i').replace(/Î/g, 'I')
            .replace(/ș/g, 's').replace(/Ș/g, 'S')
            .replace(/ț/g, 't').replace(/Ț/g, 'T')
-           .replace(/ş/g, 's').replace(/Ş/g, 'S') // Por si se usan cedillas en vez de comas
+           .replace(/ş/g, 's').replace(/Ş/g, 'S') 
            .replace(/ţ/g, 't').replace(/Ţ/g, 'T');
     }
     return t;
   };
 
-  // 3. Configuración PDF
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -343,7 +362,7 @@ form.addEventListener('submit', function(e) {
     y += 12;
   }
 
-  // --- 5. SECCIÓN DE FIRMAS (PÁGINA NUEVA OBLIGATORIA) ---
+  // --- 5. SECCIÓN DE FIRMAS ---
   doc.addPage();
   y = margin + 10;
   
