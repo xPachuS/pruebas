@@ -33,25 +33,37 @@ form.addEventListener('submit', function(e) {
   const consentedLines = document.getElementById('consented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
 
-  // --- FUNCIÓN MEJORADA: REEMPLAZO DINÁMICO DE GÉNERO Y PREPOSICIONES ---
+  // --- FUNCIÓN INFALIBLE: REEMPLAZO DINÁMICO DE GÉNERO Y MAYÚSCULAS ---
   const applyGenders = (text) => {
     let t = text;
     
-    // Parte Dominante (Ajuste de artículos y preposiciones)
+    // Parte Dominante (Mayúsculas)
+    t = t.replaceAll('El Amo / el Ama', domGender === 'Amo' ? 'El Amo' : 'La Ama');
+    t = t.replaceAll('El Amo/Ama', domGender === 'Amo' ? 'El Amo' : 'La Ama');
+    t = t.replaceAll('Al Amo/Ama', domGender === 'Amo' ? 'Al Amo' : 'A la Ama');
+    t = t.replaceAll('Del Amo/Ama', domGender === 'Amo' ? 'Del Amo' : 'De la Ama');
+    
+    // Parte Dominante (Minúsculas)
     t = t.replaceAll('el Amo / el Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
     t = t.replaceAll('el Amo/Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
     t = t.replaceAll('al Amo/Ama', domGender === 'Amo' ? 'al Amo' : 'a la Ama');
     t = t.replaceAll('del Amo/Ama', domGender === 'Amo' ? 'del Amo' : 'de la Ama');
-    t = t.replaceAll('Amo/Ama', domGender); // Reemplazo general para los que queden sueltos
+    t = t.replaceAll('Amo/Ama', domGender); // Reemplazo general para los sueltos
     
-    // Parte Sumisa
+    // Parte Sumisa (Mayúsculas)
+    t = t.replaceAll('El Sumiso / la Sumisa', subGender === 'Sumiso' ? 'El Sumiso' : 'La Sumisa');
+    t = t.replaceAll('El Sumiso/a', subGender === 'Sumiso' ? 'El Sumiso' : 'La Sumisa');
+    t = t.replaceAll('Al Sumiso/a', subGender === 'Sumiso' ? 'Al Sumiso' : 'A la Sumisa');
+    t = t.replaceAll('Del Sumiso/a', subGender === 'Sumiso' ? 'Del Sumiso' : 'De la Sumisa');
+
+    // Parte Sumisa (Minúsculas)
     t = t.replaceAll('el Sumiso / la Sumisa', subGender === 'Sumiso' ? 'el Sumiso' : 'la Sumisa');
     t = t.replaceAll('el Sumiso/a', subGender === 'Sumiso' ? 'el Sumiso' : 'la Sumisa');
     t = t.replaceAll('al Sumiso/a', subGender === 'Sumiso' ? 'al Sumiso' : 'a la Sumisa');
     t = t.replaceAll('del Sumiso/a', subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa');
     t = t.replaceAll('Sumiso/a', subGender);
     
-    // Adjetivos
+    // Adjetivos y plurales
     t = t.replaceAll('honesto/a', subGender === 'Sumiso' ? 'honesto' : 'honesta');
     t = t.replaceAll('sumisos/as', subGender === 'Sumiso' ? 'sumisos' : 'sumisas');
     
