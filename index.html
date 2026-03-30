@@ -1,58 +1,38 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Contrato D/s Minimalista</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Contrato D/s Minimalista</h1>
-    <p class="subtitle">Genera tu contrato personalizado en PDF</p>
+<div class="container">
+  <h1>Contrato D/s Minimalista</h1>
+  <p class="subtitle">Genera tu contrato personalizado en PDF</p>
 
-    <form id="contractForm">
-      <div class="form-group">
-        <label for="domme">Nombre de la Ama / Dominante:</label>
-        <input type="text" id="domme" required>
-      </div>
+  <form id="contractForm">
+    <div class="form-group">
+      <input type="text" id="domme" placeholder=" " required>
+      <label for="domme">Nombre de la Ama / Dominante</label>
+    </div>
 
-      <div class="form-group">
-        <label for="sub">Nombre del Sumiso:</label>
-        <input type="text" id="sub" required>
-      </div>
+    <div class="form-group">
+      <input type="text" id="sub" placeholder=" " required>
+      <label for="sub">Nombre del Sumiso</label>
+    </div>
 
-      <div class="form-group">
-        <label for="safeword">Palabra de seguridad:</label>
-        <input type="text" id="safeword" required>
-      </div>
+    <div class="form-group">
+      <input type="text" id="safeword" placeholder=" " required>
+      <label for="safeword">Palabra de seguridad</label>
+    </div>
 
-      <div class="form-group">
-        <label for="consented">Prácticas consentidas (separadas por comas):</label>
-        <textarea id="consented" rows="3" required></textarea>
-      </div>
+    <div class="form-group">
+      <textarea id="consented" placeholder=" " required></textarea>
+      <label for="consented">Prácticas consentidas (separadas por comas)</label>
+    </div>
 
-      <div class="form-group">
-        <label for="nonconsented">Prácticas no consentidas (separadas por comas):</label>
-        <textarea id="nonconsented" rows="3" required></textarea>
-      </div>
+    <div class="form-group">
+      <textarea id="nonconsented" placeholder=" " required></textarea>
+      <label for="nonconsented">Prácticas no consentidas</label>
+    </div>
 
-      <div class="form-group">
-        <label for="duration">Duración del contrato:</label>
-        <input type="text" id="duration" placeholder="Ej: 1 mes, 3 semanas" required>
-      </div>
+    <div class="form-group">
+      <input type="text" id="duration" placeholder=" " required>
+      <label for="duration">Duración del contrato</label>
+    </div>
 
-      <button type="submit">Generar PDF</button>
-    </form>
-  </div>
-
-  <!-- Primero el contrato JSON -->
-  <script src="contrato.js"></script>
-
-  <!-- jsPDF desde CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <!-- Después el script que genera el PDF -->
-  <script src="script.js"></script>
-</body>
-</html>
+    <button type="submit">Generar PDF</button>
+  </form>
+</div>
