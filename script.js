@@ -35,7 +35,7 @@ form.addEventListener('submit', function(e) {
   const lineHeight = 7;
   let y = 25;
 
-  // Función para añadir texto con paginación automática
+  // Función para añadir texto justificado con paginación
   function addText(text) {
     const lines = doc.splitTextToSize(text, pageWidth - 2 * margin);
     lines.forEach(line => {
@@ -43,12 +43,12 @@ form.addEventListener('submit', function(e) {
         doc.addPage();
         y = margin;
       }
-      doc.text(line, margin, y);
+      doc.text(line, margin, y, { maxWidth: pageWidth - 2 * margin, align: 'justify' });
       y += lineHeight;
     });
   }
 
-  // Función para añadir listas con viñetas
+  // Función para añadir listas con viñetas y justificación
   function addList(title, items) {
     doc.setFont('times', 'bold');
     doc.setFontSize(14);
@@ -56,7 +56,7 @@ form.addEventListener('submit', function(e) {
       doc.addPage();
       y = margin;
     }
-    doc.text(title, margin, y);
+    doc.text(title, margin, y, { align: 'left' });
     y += lineHeight;
 
     doc.setFont('times', 'normal');
@@ -66,10 +66,10 @@ form.addEventListener('submit', function(e) {
         doc.addPage();
         y = margin;
       }
-      doc.text(`- ${item}`, margin + 5, y);
+      doc.text(`- ${item}`, margin + 5, y, { maxWidth: pageWidth - 2 * margin - 5, align: 'justify' });
       y += lineHeight;
     });
-    y += lineHeight; // espacio extra después de la lista
+    y += lineHeight;
   }
 
   // Título del contrato
@@ -96,7 +96,7 @@ form.addEventListener('submit', function(e) {
       doc.addPage();
       y = margin;
     }
-    doc.text(seccion.titulo, margin, y);
+    doc.text(seccion.titulo, margin, y, { align: 'left' });
     y += lineHeight;
 
     doc.setFont('times', 'normal');
