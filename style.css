@@ -1,4 +1,4 @@
-/* Reset básico */
+/* Reset ligero */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,28 +7,28 @@
 
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: #121212;
-  color: #eee;
+  background: #f4f4f4;
+  color: #333;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
-  padding: 20px;
+  padding: 30px 10px;
 }
 
 .container {
-  background: #1e1e1e;
+  background: #fff;
   padding: 40px 30px;
-  border-radius: 15px;
+  border-radius: 12px;
   max-width: 700px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  border-top: 5px solid #d4af7f;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-left: 5px solid #d4af7f;
 }
 
 h1 {
   font-family: 'Georgia', serif;
-  font-size: 32px;
+  font-size: 28px;
   text-align: center;
   color: #d4af7f;
   margin-bottom: 5px;
@@ -37,28 +37,28 @@ h1 {
 .subtitle {
   text-align: center;
   font-size: 14px;
-  color: #bbb;
-  margin-bottom: 30px;
+  color: #666;
+  margin-bottom: 25px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 label {
   display: block;
   margin-bottom: 6px;
-  font-weight: 600;
-  color: #f0e6d2;
+  font-weight: 500;
+  color: #555;
 }
 
 input, textarea {
   width: 100%;
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #444;
-  background: #2b2b2b;
-  color: #eee;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  color: #333;
   font-size: 15px;
   transition: border-color 0.3s;
 }
@@ -76,7 +76,7 @@ button {
   width: 100%;
   padding: 14px;
   background: #d4af7f;
-  color: #121212;
+  color: #fff;
   font-weight: bold;
   font-size: 16px;
   border: none;
