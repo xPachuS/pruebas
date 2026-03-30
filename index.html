@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Contrato D/s Completo</title>
+  <title>Generador de Contrato D/s Minimalista</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Contrato D/s Completo</h1>
-    <p class="subtitle">Genera tu contrato personalizado de manera privada y segura</p>
+    <h1>Contrato D/s Minimalista</h1>
+    <p class="subtitle">Genera tu contrato personalizado en PDF</p>
 
     <form id="contractForm">
       <div class="form-group">
@@ -46,7 +46,13 @@
     </form>
   </div>
 
+  <!-- Primero el contrato JSON -->
+  <script src="contrato.js"></script>
+
+  <!-- jsPDF desde CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Después el script que genera el PDF -->
   <script src="script.js"></script>
 </body>
 </html>
