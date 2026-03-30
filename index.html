@@ -16,13 +16,31 @@
 
     <form id="contractForm">
       <div class="form-group">
+        <select id="domGender" required>
+          <option value="" disabled selected hidden></option>
+          <option value="Ama">Ama</option>
+          <option value="Amo">Amo</option>
+        </select>
+        <label for="domGender">Rol de la parte Dominante</label>
+      </div>
+
+      <div class="form-group">
+        <select id="subGender" required>
+          <option value="" disabled selected hidden></option>
+          <option value="Sumisa">Sumisa</option>
+          <option value="Sumiso">Sumiso</option>
+        </select>
+        <label for="subGender">Rol de la parte Sumisa</label>
+      </div>
+
+      <div class="form-group">
         <input type="text" id="domme" placeholder=" " required>
-        <label for="domme">Nombre de la Ama / Dominante</label>
+        <label for="domme">Nombre Dominante</label>
       </div>
 
       <div class="form-group">
         <input type="text" id="sub" placeholder=" " required>
-        <label for="sub">Nombre del Sumiso</label>
+        <label for="sub">Nombre Sumiso/a</label>
       </div>
 
       <div class="form-group">
@@ -32,7 +50,7 @@
 
       <div class="form-group">
         <textarea id="consented" placeholder=" " required></textarea>
-        <label for="consented">Prácticas consentidas (separadas por comas)</label>
+        <label for="consented">Prácticas consentidas (separadas por comas o saltos)</label>
       </div>
 
       <div class="form-group">
@@ -42,7 +60,7 @@
 
       <div class="form-group">
         <input type="text" id="duration" placeholder=" " required>
-        <label for="duration">Duración del contrato</label>
+        <label for="duration">Duración del contrato (ej: 6 meses)</label>
       </div>
 
       <br>
