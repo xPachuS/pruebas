@@ -6,42 +6,52 @@ form.addEventListener('submit', function(e) {
   e.preventDefault();
 
   // 1. Obtener valores del formulario
+  const domGender = document.getElementById('domGender').value;
+  const subGender = document.getElementById('subGender').value;
   const domme = document.getElementById('domme').value.trim();
   const sub = document.getElementById('sub').value.trim();
   const safeword = document.getElementById('safeword').value.trim().toUpperCase();
   const duration = document.getElementById('duration').value.trim();
 
-  // --- VALIDACIÓN DE LA DURACIÓN ---
-  // Busca las palabras día, días, mes, meses, año, años (con o sin tilde/eñe)
+  // Validación de la duración
   const regexDuracion = /\b(día|días|dia|dias|mes|meses|año|años|ano|anos)\b/i;
-  
   if (!regexDuracion.test(duration)) {
     alert("Error: La duración del contrato debe especificar el formato de tiempo.\nPor favor, incluye 'día', 'días', 'mes', 'meses', 'año' o 'años' (Ej: '6 meses' o '1 año').");
-    return; // Detiene la ejecución y evita que se genere el PDF
+    return;
   }
-  // ---------------------------------
 
-  // Obtener y formatear la fecha actual (DD/MM/YYYY)
+  // Obtener fecha actual
   const currentDate = new Date().toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
+    day: '2-digit', month: '2-digit', year: 'numeric'
   });
 
-  // Función para primera letra en mayúscula y el resto en minúsculas
   const formatPractice = (str) => {
     const trimmed = str.trim();
     return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
   };
 
-  // Filtrar y formatear prácticas
-  const consentedLines = document.getElementById('consented').value.trim().split('\n')
-    .filter(l => l.trim() !== '')
-    .map(formatPractice);
+  const consentedLines = document.getElementById('consented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
+  const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
+
+  // --- NUEVA FUNCIÓN: REEMPLAZO DINÁMICO DE GÉNERO ---
+  const applyGenders = (text) => {
+    let t = text;
+    // Dominante
+    t = t.replaceAll('el Amo / el Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
+    t = t.replaceAll('Amo/Ama', domGender);
     
-  const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n')
-    .filter(l => l.trim() !== '')
-    .map(formatPractice);
+    // Sumiso/a
+    t = t.replaceAll('el Sumiso / la Sumisa', subGender === 'Sumiso' ? 'el Sumiso' : 'la Sumisa');
+    t = t.replaceAll('al Sumiso/a', subGender === 'Sumiso' ? 'al Sumiso' : 'a la Sumisa');
+    t = t.replaceAll('del Sumiso/a', subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa');
+    t = t.replaceAll('Sumiso/a', subGender);
+    
+    // Adjetivos
+    t = t.replaceAll('honesto/a', subGender === 'Sumiso' ? 'honesto' : 'honesta');
+    t = t.replaceAll('sumisos/as', subGender === 'Sumiso' ? 'sumisos' : 'sumisas');
+    
+    return t;
+  };
 
   // 2. Configuración inicial del PDF
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -51,9 +61,7 @@ form.addEventListener('submit', function(e) {
   const contentWidth = pageWidth - 2 * margin;
   let y = 30;
 
-  // --- FUNCIONES AUXILIARES ---
-
-  // Control de salto de página manual/automático
+  // --- FUNCIONES DE DIBUJADO Y ALTURA ---
   function checkPageBreak(extraSpace = 0) {
     if (y + extraSpace > pageHeight - margin) {
       doc.addPage();
@@ -63,33 +71,26 @@ form.addEventListener('submit', function(e) {
     return false;
   }
 
-  // CALCULAR ALTURA: Simula cuánto espacio ocupará un bloque sin dibujarlo
   function calculateTextHeight(text, fontSize, isDefaultBold = false, indent = 0) {
     doc.setFontSize(fontSize);
-    
     if (!text.includes('**')) {
       doc.setFont('times', isDefaultBold ? 'bold' : 'normal');
       const lines = doc.splitTextToSize(text, contentWidth - indent);
       return (lines.length * (fontSize * 0.45)) + 3;
     }
-
     let currentX = margin + indent;
     let height = 0;
     const maxWidth = contentWidth - indent;
     const paragraphs = text.split('\n');
-
     paragraphs.forEach(paragraph => {
       let parts = paragraph.split('**');
       let isBold = false;
-
       parts.forEach(part => {
         doc.setFont('times', isBold ? 'bold' : 'normal');
         const words = part.split(/(\s+)/);
-
         words.forEach(word => {
           if (word === '') return;
           const wordWidth = doc.getStringUnitWidth(word) * fontSize / doc.internal.scaleFactor;
-          
           if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth) {
             currentX = margin + indent;
             height += fontSize * 0.45;
@@ -105,11 +106,9 @@ form.addEventListener('submit', function(e) {
     return height + 3;
   }
 
-  // DIBUJAR TEXTO: Imprime el texto en el PDF
   function addText(text, fontSize, isDefaultBold = false, align = 'left', indent = 0) {
     doc.setFontSize(fontSize);
     doc.setTextColor(40, 40, 40);
-
     if (!text.includes('**')) {
       doc.setFont('times', isDefaultBold ? 'bold' : 'normal');
       const lines = doc.splitTextToSize(text, contentWidth - indent);
@@ -123,39 +122,31 @@ form.addEventListener('submit', function(e) {
       y += 3;
       return;
     }
-
     let currentX = margin + indent;
     let currentY = y;
     const maxWidth = contentWidth - indent;
     const paragraphs = text.split('\n');
-
     paragraphs.forEach(paragraph => {
       let parts = paragraph.split('**');
       let isBold = false;
-
       parts.forEach(part => {
         doc.setFont('times', isBold ? 'bold' : 'normal');
         const words = part.split(/(\s+)/); 
-
         words.forEach(word => {
           if (word === '') return;
           const wordWidth = doc.getStringUnitWidth(word) * fontSize / doc.internal.scaleFactor;
-
           if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth) {
             currentX = margin + indent;
             currentY += fontSize * 0.45;
             y = currentY;
             if (checkPageBreak(7)) currentY = y;
           }
-
           if (word.trim() === '' && currentX === margin + indent) return;
-
           doc.text(word, currentX, currentY);
           currentX += wordWidth;
         });
         isBold = !isBold;
       });
-      
       currentX = margin + indent;
       currentY += fontSize * 0.45;
       y = currentY;
@@ -165,30 +156,27 @@ form.addEventListener('submit', function(e) {
 
   // --- GENERACIÓN DEL CONTENIDO ---
 
-  // Título principal
   doc.setFont('times', 'bold');
   doc.setFontSize(24);
   doc.setTextColor(212, 175, 127); 
   doc.text('CONTRATO DE SUMISIÓN', pageWidth / 2, y, { align: 'center' });
   y += 6;
 
-  // Línea decorativa
   doc.setDrawColor(212, 175, 127);
   doc.setLineWidth(0.5);
   doc.line(margin, y, pageWidth - margin, y);
   y += 15;
 
-  // Introducción
+  // Introducción filtrada
   let introText = contrato.intro
     .replaceAll('${sub}', `**${sub}**`)
-    .replaceAll('${domme}', `**${domme}**`)
-    .replaceAll('${duration}', `**${duration}**`)
-    .replaceAll('${safeword}', `**${safeword}**`);
+    .replaceAll('${domme}', `**${domme}**`);
+  introText = applyGenders(introText);
   
   addText(introText, 12, false, 'left');
   y += 5;
 
-  // Apartado Duración
+  // Duración
   let duracionText = `El presente acuerdo entra en vigor en la fecha de su firma y tendrá una duración de **${duration}**. Sin embargo, ambas partes reconocen que el consentimiento es continuo y puede ser revocado mediante los mecanismos descritos en este documento.`;
   let durHeight = calculateTextHeight('Duración del Contrato', 13, true) + 1 + calculateTextHeight(duracionText, 11, false, 6) + 6;
   
@@ -203,12 +191,10 @@ form.addEventListener('submit', function(e) {
   addText(duracionText, 11, false, 'left', 6);
   y += 6;
 
-  // Secciones
+  // Secciones filtradas
   contrato.secciones.forEach(seccion => {
-    let textoSeccion = seccion.texto
-      .replaceAll('${sub}', `**${sub}**`)
-      .replaceAll('${domme}', `**${domme}**`)
-      .replaceAll('${safeword}', `**${safeword}**`);
+    let textoSeccion = seccion.texto.replaceAll('${safeword}', `**${safeword}**`);
+    textoSeccion = applyGenders(textoSeccion);
 
     let blockHeight = calculateTextHeight(seccion.titulo, 13, true) + 1;
     const lineas = textoSeccion.split('\n').filter(l => l.trim() !== '');
@@ -246,9 +232,7 @@ form.addEventListener('submit', function(e) {
   // Prácticas Consentidas
   if (consentedLines.length > 0) {
     let blockHeight = calculateTextHeight('Prácticas Consentidas', 13, true) + 1;
-    consentedLines.forEach(item => {
-      blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6);
-    });
+    consentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
     blockHeight += 4;
 
     if (y + blockHeight > pageHeight - margin) {
@@ -265,9 +249,7 @@ form.addEventListener('submit', function(e) {
   // Prácticas No Consentidas
   if (nonconsentedLines.length > 0) {
     let blockHeight = calculateTextHeight('Prácticas No Consentidas (Límites Duros)', 13, true) + 1;
-    nonconsentedLines.forEach(item => {
-      blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6);
-    });
+    nonconsentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
     blockHeight += 12;
 
     if (y + blockHeight > pageHeight - margin) {
@@ -284,8 +266,8 @@ form.addEventListener('submit', function(e) {
   // --- SECCIÓN DE FIRMAS ---
   checkPageBreak(50); 
   
-  const textoSumiso = contrato.firmas.sumiso.replace(/Nombre completo:[\s\S]*/, '').trim();
-  const textoAma = contrato.firmas.ama.replace(/Nombre completo:[\s\S]*/, '').trim();
+  const textoSumiso = applyGenders(contrato.firmas.sumiso.replace(/Nombre completo:[\s\S]*/, '').trim());
+  const textoAma = applyGenders(contrato.firmas.ama.replace(/Nombre completo:[\s\S]*/, '').trim());
 
   const colWidth = (contentWidth / 2) - 10;
   const col1X = margin;
@@ -336,8 +318,9 @@ form.addEventListener('submit', function(e) {
   // 3. FIRMA (CON HUECO)
   y += 15;
   doc.setFont('times', 'bold');
-  doc.text('Firma del Sumiso/a:', col1X, y);
-  doc.text('Firma del Amo/Ama:', col2X, y);
+  // Se adapta también el título de la firma
+  doc.text(`Firma ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}:`, col1X, y);
+  doc.text(`Firma ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}:`, col2X, y);
 
   y += 20; 
   doc.line(col1X, y, col1X + colWidth, y);
