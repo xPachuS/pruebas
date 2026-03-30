@@ -1,5 +1,3 @@
-// --- pdf-generator.js ---
-
 const pdfI18n = {
   es: { title: 'CONTRATO DE SUMISIÓN', durationTitle: 'Duración del Contrato', durationText: 'El presente acuerdo entra en vigor en la fecha de su firma y tendrá una duración de **${duration}**. Sin embargo, ambas partes reconocen que el consentimiento es continuo y puede ser revocado.', practicesCon: 'Prácticas Consentidas', practicesNon: 'Prácticas No Consentidas (Límites Duros)', name: 'Nombre:', date: 'Fecha:', signSub: 'Firma', signDom: 'Firma' },
   en: { title: 'SUBMISSION CONTRACT', durationTitle: 'Contract Duration', durationText: 'This agreement takes effect on the date of its signature and will have a duration of **${duration}**. However, both parties acknowledge that consent is continuous and can be revoked.', practicesCon: 'Consented Practices', practicesNon: 'Non-Consented Practices (Hard Limits)', name: 'Name:', date: 'Date:', signSub: 'Signature', signDom: 'Signature' },
@@ -10,7 +8,7 @@ const pdfI18n = {
 
 function generateContractPDF(data) {
   const { jsPDF } = window.jspdf;
-  const { lang, domGender, subGender, domme, sub, safeword, duration, consentedLines, nonconsentedLines, uiTranslations } = data;
+  const { lang, domGender, subGender, domme, sub, safeword, duration, exclusivity, consentedLines, nonconsentedLines, dailyTasksLines, uiTranslations } = data;
   const ui = pdfI18n[lang];
 
   const locales = { es: 'es-ES', en: 'en-US', de: 'de-DE', it: 'it-IT', ro: 'ro-RO' };
@@ -262,15 +260,45 @@ function generateContractPDF(data) {
   if (nonconsentedLines.length > 0) {
     let blockHeight = calculateTextHeight(ui.practicesNon, 13, true) + 1;
     nonconsentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
-    blockHeight += 12;
+    blockHeight += 6;
     if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
 
     addText(ui.practicesNon, 13, true);
     y += 1;
     nonconsentedLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
-    y += 12;
+    y += 6;
   }
 
+  // Novedad: Reglas de Exclusividad
+  let textoExclusividad = "";
+  if (exclusivity === 'total') textoExclusividad = uiTranslations[lang].exclTotal;
+  if (exclusivity === 'bdsm') textoExclusividad = uiTranslations[lang].exclBDSM;
+  if (exclusivity === 'open') textoExclusividad = uiTranslations[lang].exclOpen;
+
+  let exclHeight = calculateTextHeight(uiTranslations[lang].excl, 13, true) + 1 + calculateTextHeight(textoExclusividad, 11, false, 6) + 6;
+  if (y + exclHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+  
+  addText(uiTranslations[lang].excl, 13, true);
+  y += 1;
+  addText(textoExclusividad, 11, false, 'left', 6);
+  y += 6;
+
+  // Novedad: Tareas Diarias / Rituales
+  if (dailyTasksLines.length > 0) {
+    let tasksTitle = uiTranslations[lang].tasks.replace('(Opcional)','').replace('(Optional)','').replace('(Optionale)','').replace('(Opzionale)','').replace('(Opțional)','').trim();
+    let blockHeight = calculateTextHeight(tasksTitle, 13, true) + 1;
+    dailyTasksLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
+    blockHeight += 10;
+    
+    if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+
+    addText(tasksTitle, 13, true);
+    y += 1;
+    dailyTasksLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
+    y += 10;
+  }
+
+  // --- SECCIÓN DE FIRMAS ---
   doc.addPage();
   y = margin + 10;
   
