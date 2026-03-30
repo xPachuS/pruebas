@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Contrato D/s</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Generador de Contrato D/s</h1>
+    <form id="contractForm">
+      <label for="domme">Nombre de la Ama / Dominante:</label>
+      <input type="text" id="domme" required>
+
+      <label for="sub">Nombre del Sumiso:</label>
+      <input type="text" id="sub" required>
+
+      <label for="safeword">Palabra de seguridad:</label>
+      <input type="text" id="safeword" required>
+
+      <label for="consented">Prácticas consentidas (separadas por comas):</label>
+      <textarea id="consented" rows="3" required></textarea>
+
+      <label for="nonconsented">Prácticas no consentidas (separadas por comas):</label>
+      <textarea id="nonconsented" rows="3" required></textarea>
+
+      <label for="duration">Duración del contrato:</label>
+      <input type="text" id="duration" placeholder="Ej: 1 mes, 3 semanas" required>
+
+      <button type="submit">Generar PDF</button>
+    </form>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
