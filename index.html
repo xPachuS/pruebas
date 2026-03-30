@@ -15,32 +15,35 @@
     <br>
 
     <form id="contractForm">
-      <div class="form-group">
-        <select id="domGender" required>
-          <option value="" disabled selected hidden></option>
-          <option value="Ama">Ama</option>
-          <option value="Amo">Amo</option>
-        </select>
-        <label for="domGender">Rol de la parte Dominante</label>
+      
+      <div class="form-row">
+        <div class="form-group role-group">
+          <select id="domGender" required>
+            <option value="" disabled selected hidden></option>
+            <option value="Ama">Ama</option>
+            <option value="Amo">Amo</option>
+          </select>
+          <label for="domGender">Rol Dominante</label>
+        </div>
+        <div class="form-group name-group">
+          <input type="text" id="domme" placeholder=" " required>
+          <label for="domme">Nombre Dominante</label>
+        </div>
       </div>
 
-      <div class="form-group">
-        <select id="subGender" required>
-          <option value="" disabled selected hidden></option>
-          <option value="Sumisa">Sumisa</option>
-          <option value="Sumiso">Sumiso</option>
-        </select>
-        <label for="subGender">Rol de la parte Sumisa</label>
-      </div>
-
-      <div class="form-group">
-        <input type="text" id="domme" placeholder=" " required>
-        <label for="domme">Nombre Dominante</label>
-      </div>
-
-      <div class="form-group">
-        <input type="text" id="sub" placeholder=" " required>
-        <label for="sub">Nombre Sumiso/a</label>
+      <div class="form-row">
+        <div class="form-group role-group">
+          <select id="subGender" required>
+            <option value="" disabled selected hidden></option>
+            <option value="Sumisa">Sumisa</option>
+            <option value="Sumiso">Sumiso</option>
+          </select>
+          <label for="subGender">Rol Sumiso/a</label>
+        </div>
+        <div class="form-group name-group">
+          <input type="text" id="sub" placeholder=" " required>
+          <label for="sub">Nombre Sumiso/a</label>
+        </div>
       </div>
 
       <div class="form-group">
@@ -50,12 +53,12 @@
 
       <div class="form-group">
         <textarea id="consented" placeholder=" " required></textarea>
-        <label for="consented">Prácticas consentidas (separadas por comas o saltos)</label>
+        <label for="consented">Prácticas consentidas (separadas por saltos de línea)</label>
       </div>
 
       <div class="form-group">
         <textarea id="nonconsented" placeholder=" " required></textarea>
-        <label for="nonconsented">Prácticas no consentidas</label>
+        <label for="nonconsented">Prácticas no consentidas (Límites Duros)</label>
       </div>
 
       <div class="form-group">
