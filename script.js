@@ -9,10 +9,10 @@ const uiTranslations = {
     title: "Contrato D/s", subtitle: "Genera tu contrato personalizado en PDF", lang: "Idioma", domRole: "Rol Dominante", domFem: "Ama", domMale: "Amo", domName: "Nombre Dominante", subRole: "Rol Sumiso/a", subFem: "Sumisa", subMale: "Sumiso", subName: "Nombre Sumiso/a", safe: "Palabra de seguridad", con: "Prácticas consentidas (separadas por saltos de línea)", non: "Prácticas no consentidas (Límites Duros)", dur: "Duración del contrato (ej: 6 meses)", btn: "Generar PDF"
   },
   en: {
-    title: "D/s Contract", subtitle: "Generate your personalized PDF contract", lang: "Language", domRole: "Dominant Role", domFem: "Mistress", domMale: "Master", domName: "Dominant Name", subRole: "Submissive Role", subFem: "Submissive (F)", subMale: "Submissive (M)", subName: "Submissive Name", safe: "Safeword", con: "Consented practices (separated by newlines)", non: "Non-consented practices (Hard Limits)", dur: "Contract duration (e.g., 6 months)", btn: "Generate PDF"
+    title: "D/s Contract", subtitle: "Generate your personalized PDF contract", lang: "Language", domRole: "Dominant Role", domFem: "Mistress", domMale: "Master", domName: "Dominant Name", subRole: "Submissive Role", subFem: "Submissive", subMale: "Submissive", subName: "Submissive Name", safe: "Safeword", con: "Consented practices (separated by newlines)", non: "Non-consented practices (Hard Limits)", dur: "Contract duration (e.g., 6 months)", btn: "Generate PDF"
   },
   de: {
-    title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Herrin", domMale: "Herr", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub (W)", subMale: "Sub (M)", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
+    title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Herrin", domMale: "Herr", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub", subMale: "Sub", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
   },
   it: {
     title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contratto (es: 6 mesi)", btn: "Genera PDF"
@@ -113,14 +113,14 @@ form.addEventListener('submit', function(e) {
       t = t.replaceAll('Sumiso/a', subGender);
     } 
     else if (lang === 'en') {
-      t = t.replaceAll('the Dom / the Domme', domGender === 'Amo' ? 'the Dom' : 'the Domme');
-      t = t.replaceAll('Dom/Domme', domGender === 'Amo' ? 'Dom' : 'Domme');
+      t = t.replaceAll('the Dom / the Domme', domGender === 'Amo' ? 'the Master' : 'the Mistress');
+      t = t.replaceAll('Dom/Domme', domGender === 'Amo' ? 'Master' : 'Mistress');
     }
     else if (lang === 'de') {
-      t = t.replaceAll('der Dom / die Domme', domGender === 'Amo' ? 'der Dom' : 'die Domme');
-      t = t.replaceAll('des Doms / der Domme', domGender === 'Amo' ? 'des Doms' : 'der Domme');
-      t = t.replaceAll('dem Dom / der Domme', domGender === 'Amo' ? 'dem Dom' : 'der Domme');
-      t = t.replaceAll('den Dom / die Domme', domGender === 'Amo' ? 'den Dom' : 'die Domme');
+      t = t.replaceAll('der Dom / die Domme', domGender === 'Amo' ? 'der Herr' : 'die Herrin');
+      t = t.replaceAll('des Doms / der Domme', domGender === 'Amo' ? 'des Herrn' : 'der Herrin');
+      t = t.replaceAll('dem Dom / der Domme', domGender === 'Amo' ? 'dem Herrn' : 'der Herrin');
+      t = t.replaceAll('den Dom / die Domme', domGender === 'Amo' ? 'den Herrn' : 'die Herrin');
       t = t.replaceAll('der Sub / die Sub', subGender === 'Sumiso' ? 'der Sub' : 'die Sub');
       t = t.replaceAll('des/der Sub', subGender === 'Sumiso' ? 'des Sub' : 'der Sub');
       t = t.replaceAll('dem/der Sub', subGender === 'Sumiso' ? 'dem Sub' : 'der Sub');
@@ -395,8 +395,9 @@ form.addEventListener('submit', function(e) {
   y += 15;
   doc.setFont('times', 'bold');
   
-  let firmaSub = lang === 'es' ? `${ui.signSub} ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}` : `${ui.signSub} (${t.subRole.replace('Role','').trim()})`;
-  let firmaDom = lang === 'es' ? `${ui.signDom} ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}` : `${ui.signDom} (${t.domRole.replace('Role','').trim()})`;
+  // SOLUCIÓN AL ERROR: Extraemos el texto de forma segura
+  let firmaSub = lang === 'es' ? `${ui.signSub} ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}` : `${ui.signSub} (${subGender === 'Sumiso' ? uiTranslations[lang].subMale : uiTranslations[lang].subFem})`;
+  let firmaDom = lang === 'es' ? `${ui.signDom} ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}` : `${ui.signDom} (${domGender === 'Amo' ? uiTranslations[lang].domMale : uiTranslations[lang].domFem})`;
   
   doc.text(firmaSub + ':', col1X, y);
   doc.text(firmaDom + ':', col2X, y);
