@@ -33,15 +33,20 @@ form.addEventListener('submit', function(e) {
   const consentedLines = document.getElementById('consented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
 
-  // --- NUEVA FUNCIÓN: REEMPLAZO DINÁMICO DE GÉNERO ---
+  // --- FUNCIÓN MEJORADA: REEMPLAZO DINÁMICO DE GÉNERO Y PREPOSICIONES ---
   const applyGenders = (text) => {
     let t = text;
-    // Dominante
-    t = t.replaceAll('el Amo / el Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
-    t = t.replaceAll('Amo/Ama', domGender);
     
-    // Sumiso/a
+    // Parte Dominante (Ajuste de artículos y preposiciones)
+    t = t.replaceAll('el Amo / el Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
+    t = t.replaceAll('el Amo/Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
+    t = t.replaceAll('al Amo/Ama', domGender === 'Amo' ? 'al Amo' : 'a la Ama');
+    t = t.replaceAll('del Amo/Ama', domGender === 'Amo' ? 'del Amo' : 'de la Ama');
+    t = t.replaceAll('Amo/Ama', domGender); // Reemplazo general para los que queden sueltos
+    
+    // Parte Sumisa
     t = t.replaceAll('el Sumiso / la Sumisa', subGender === 'Sumiso' ? 'el Sumiso' : 'la Sumisa');
+    t = t.replaceAll('el Sumiso/a', subGender === 'Sumiso' ? 'el Sumiso' : 'la Sumisa');
     t = t.replaceAll('al Sumiso/a', subGender === 'Sumiso' ? 'al Sumiso' : 'a la Sumisa');
     t = t.replaceAll('del Sumiso/a', subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa');
     t = t.replaceAll('Sumiso/a', subGender);
@@ -318,7 +323,6 @@ form.addEventListener('submit', function(e) {
   // 3. FIRMA (CON HUECO)
   y += 15;
   doc.setFont('times', 'bold');
-  // Se adapta también el título de la firma
   doc.text(`Firma ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}:`, col1X, y);
   doc.text(`Firma ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}:`, col2X, y);
 
