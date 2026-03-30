@@ -43,10 +43,34 @@ form {
   gap: 20px;
 }
 
+/* --- NUEVAS REGLAS PARA AGRUPAR EN FILAS --- */
+.form-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.role-group {
+  flex: 0 0 35%; /* El selector de rol ocupa el 35% del ancho */
+}
+
+.name-group {
+  flex: 1; /* El nombre ocupa el resto del espacio (65%) */
+}
+
+/* Diseño Responsive: Si la pantalla es muy pequeña, se apilan */
+@media (max-width: 480px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
 /* Estilo de input flotante */
 .form-group {
   position: relative;
   padding-top: 15px;
+  margin-bottom: 10px; /* Margen extra para cuando se apilan en móvil */
 }
 
 /* Aplicamos estilos base también al select */
@@ -109,6 +133,7 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -119,7 +144,7 @@ button:hover {
 
 /* Textareas de prácticas */
 textarea {
-  height: 90px;          /* Más alto para ver varias líneas */
+  height: 90px;           /* Más alto para ver varias líneas */
   resize: none;           /* No se puede cambiar tamaño */
   overflow-y: auto;       /* Scroll vertical si hay más contenido */
   padding: 8px 10px;
