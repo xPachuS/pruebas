@@ -14,20 +14,36 @@ form.addEventListener('submit', function(e) {
 
   const doc = new jsPDF();
 
-  doc.setFontSize(20);
+  doc.setFont('times', 'bold');
+  doc.setFontSize(22);
   doc.text('Contrato D/s', 105, 20, { align: 'center' });
 
+  doc.setFont('times', 'normal');
   doc.setFontSize(12);
-  doc.text(`Ama / Dominante: ${domme}`, 20, 40);
-  doc.text(`Sumiso: ${sub}`, 20, 50);
-  doc.text(`Palabra de seguridad: ${safeword}`, 20, 60);
-  doc.text(`Duración del contrato: ${duration}`, 20, 70);
+  let y = 40;
+  const lineHeight = 8;
 
-  doc.text('Prácticas consentidas:', 20, 85);
-  doc.text(consented.split(',').map((p, i) => `${i+1}. ${p.trim()}`).join('\n'), 25, 95);
+  doc.text(`Ama / Dominante: ${domme}`, 20, y); y += lineHeight;
+  doc.text(`Sumiso: ${sub}`, 20, y); y += lineHeight;
+  doc.text(`Palabra de seguridad: ${safeword}`, 20, y); y += lineHeight;
+  doc.text(`Duración del contrato: ${duration}`, 20, y); y += lineHeight + 5;
 
-  doc.text('Prácticas no consentidas:', 20, 120);
-  doc.text(nonconsented.split(',').map((p, i) => `${i+1}. ${p.trim()}`).join('\n'), 25, 130);
+  doc.setFont('times', 'bold');
+  doc.text('Prácticas consentidas:', 20, y); y += lineHeight;
+  doc.setFont('times', 'normal');
+  consented.split(',').forEach((p, i) => {
+    doc.text(`${i + 1}. ${p.trim()}`, 25, y);
+    y += lineHeight;
+  });
+
+  y += 5;
+  doc.setFont('times', 'bold');
+  doc.text('Prácticas no consentidas:', 20, y); y += lineHeight;
+  doc.setFont('times', 'normal');
+  nonconsented.split(',').forEach((p, i) => {
+    doc.text(`${i + 1}. ${p.trim()}`, 25, y);
+    y += lineHeight;
+  });
 
   doc.save(`Contrato_${sub}_${domme}.pdf`);
 });
