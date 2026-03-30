@@ -1,38 +1,60 @@
-<div class="container">
-  <h1>Contrato D/s Minimalista</h1>
-  <p class="subtitle">Genera tu contrato personalizado en PDF</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Contrato D/s Minimalista</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <form id="contractForm">
-    <div class="form-group">
-      <input type="text" id="domme" placeholder=" " required>
-      <label for="domme">Nombre de la Ama / Dominante</label>
-    </div>
+  <div class="container">
+    <h1>Contrato D/s Minimalista</h1>
+    <p class="subtitle">Genera tu contrato personalizado en PDF</p>
 
-    <div class="form-group">
-      <input type="text" id="sub" placeholder=" " required>
-      <label for="sub">Nombre del Sumiso</label>
-    </div>
+    <form id="contractForm">
+      <div class="form-group">
+        <input type="text" id="domme" placeholder=" " required>
+        <label for="domme">Nombre de la Ama / Dominante</label>
+      </div>
 
-    <div class="form-group">
-      <input type="text" id="safeword" placeholder=" " required>
-      <label for="safeword">Palabra de seguridad</label>
-    </div>
+      <div class="form-group">
+        <input type="text" id="sub" placeholder=" " required>
+        <label for="sub">Nombre del Sumiso</label>
+      </div>
 
-    <div class="form-group">
-      <textarea id="consented" placeholder=" " required></textarea>
-      <label for="consented">Prácticas consentidas (separadas por comas)</label>
-    </div>
+      <div class="form-group">
+        <input type="text" id="safeword" placeholder=" " required>
+        <label for="safeword">Palabra de seguridad</label>
+      </div>
 
-    <div class="form-group">
-      <textarea id="nonconsented" placeholder=" " required></textarea>
-      <label for="nonconsented">Prácticas no consentidas</label>
-    </div>
+      <div class="form-group">
+        <textarea id="consented" placeholder=" " required></textarea>
+        <label for="consented">Prácticas consentidas (separadas por comas)</label>
+      </div>
 
-    <div class="form-group">
-      <input type="text" id="duration" placeholder=" " required>
-      <label for="duration">Duración del contrato</label>
-    </div>
+      <div class="form-group">
+        <textarea id="nonconsented" placeholder=" " required></textarea>
+        <label for="nonconsented">Prácticas no consentidas</label>
+      </div>
 
-    <button type="submit">Generar PDF</button>
-  </form>
-</div>
+      <div class="form-group">
+        <input type="text" id="duration" placeholder=" " required>
+        <label for="duration">Duración del contrato</label>
+      </div>
+
+      <button type="submit">Generar PDF</button>
+    </form>
+  </div>
+
+  <!-- Contrato JSON -->
+  <script src="contrato.js"></script>
+
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Script para generar PDF -->
+  <script src="script.js"></script>
+
+</body>
+</html>
