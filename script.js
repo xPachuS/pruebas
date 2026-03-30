@@ -12,7 +12,19 @@ form.addEventListener('submit', function(e) {
   const duration = document.getElementById('duration').value.trim();
   const exclusivity = document.getElementById('exclusivity').value;
 
-  // Validación de la duración
+  // Validación: Si el campo oculto de exclusividad está vacío
+  if (!exclusivity) {
+    const errorMsg = {
+      es: "Error: Debes seleccionar una regla de exclusividad.",
+      en: "Error: You must select an exclusivity rule.",
+      de: "Fehler: Sie müssen eine Exklusivitätsregel auswählen.",
+      it: "Errore: Devi selezionare una regola di esclusività.",
+      ro: "Eroare: Trebuie să selectați o regulă de exclusivitate."
+    };
+    alert(errorMsg[lang] || errorMsg.es);
+    return;
+  }
+
   const regexDuracion = /\b(día|días|dia|dias|mes|meses|año|años|ano|anos|day|days|month|months|year|years|tag|tage|monat|monate|jahr|jahre|giorno|giorni|mese|mesi|anno|anni|zi|zile|lună|luna|luni|an|ani)\b/i;
   
   if (!regexDuracion.test(duration)) {
@@ -20,7 +32,6 @@ form.addEventListener('submit', function(e) {
     return;
   }
 
-  // Utilidad para limpiar y formatear listas
   const formatPractice = (str) => {
     const trimmed = str.trim();
     return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
@@ -30,7 +41,6 @@ form.addEventListener('submit', function(e) {
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
   const dailyTasksLines = document.getElementById('dailyTasks').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
 
-  // Empaquetar todo y enviarlo a pdf-generator.js
   const contractData = {
     lang,
     domGender,
@@ -43,7 +53,7 @@ form.addEventListener('submit', function(e) {
     consentedLines,
     nonconsentedLines,
     dailyTasksLines,
-    uiTranslations // Extraído del contexto global en ui.js para las traducciones del PDF
+    uiTranslations
   };
 
   generateContractPDF(contractData);
