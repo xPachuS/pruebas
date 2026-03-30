@@ -188,8 +188,10 @@ form.addEventListener('submit', function(e) {
         const words = part.split(/(\s+)/);
         words.forEach(word => {
           if (word === '') return;
-          const wordWidth = doc.getStringUnitWidth(word) * fontSize / doc.internal.scaleFactor;
-          if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth) {
+          // MEJORA RUMANO: Usa getTextWidth para que sea exacto con caracteres especiales
+          const wordWidth = doc.getTextWidth(word);
+          // Tolerancia de 1mm añadida al final para evitar desbordes milimétricos
+          if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth - 1) {
             currentX = margin + indent;
             height += fontSize * 0.45;
           }
@@ -232,8 +234,10 @@ form.addEventListener('submit', function(e) {
         const words = part.split(/(\s+)/); 
         words.forEach(word => {
           if (word === '') return;
-          const wordWidth = doc.getStringUnitWidth(word) * fontSize / doc.internal.scaleFactor;
-          if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth) {
+          // MEJORA RUMANO: Usa getTextWidth para que sea exacto con caracteres especiales
+          const wordWidth = doc.getTextWidth(word);
+          // Tolerancia de 1mm añadida al final para evitar desbordes milimétricos
+          if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth - 1) {
             currentX = margin + indent;
             currentY += fontSize * 0.45;
             y = currentY;
@@ -395,7 +399,6 @@ form.addEventListener('submit', function(e) {
   y += 15;
   doc.setFont('times', 'bold');
   
-  // SOLUCIÓN AL ERROR: Extraemos el texto de forma segura
   let firmaSub = lang === 'es' ? `${ui.signSub} ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}` : `${ui.signSub} (${subGender === 'Sumiso' ? uiTranslations[lang].subMale : uiTranslations[lang].subFem})`;
   let firmaDom = lang === 'es' ? `${ui.signDom} ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}` : `${ui.signDom} (${domGender === 'Amo' ? uiTranslations[lang].domMale : uiTranslations[lang].domFem})`;
   
