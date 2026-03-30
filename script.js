@@ -9,10 +9,10 @@ const uiTranslations = {
     title: "Contrato D/s", subtitle: "Genera tu contrato personalizado en PDF", lang: "Idioma", domRole: "Rol Dominante", domFem: "Ama", domMale: "Amo", domName: "Nombre Dominante", subRole: "Rol Sumiso/a", subFem: "Sumisa", subMale: "Sumiso", subName: "Nombre Sumiso/a", safe: "Palabra de seguridad", con: "Prácticas consentidas (separadas por saltos de línea)", non: "Prácticas no consentidas (Límites Duros)", dur: "Duración del contrato (ej: 6 meses)", btn: "Generar PDF"
   },
   en: {
-    title: "D/s Contract", subtitle: "Generate your personalized PDF contract", lang: "Language", domRole: "Dominant Role", domFem: "Mistress", domMale: "Master", domName: "Dominant Name", subRole: "Submissive Role", subFem: "Submissive", subMale: "Submissive", subName: "Submissive Name", safe: "Safeword", con: "Consented practices (separated by newlines)", non: "Non-consented practices (Hard Limits)", dur: "Contract duration (e.g., 6 months)", btn: "Generate PDF"
+    title: "D/s Contract", subtitle: "Generate your personalized PDF contract", lang: "Language", domRole: "Dominant Role", domFem: "Mistress", domMale: "Master", domName: "Dominant Name", subRole: "Submissive Role", subFem: "Submissive (F)", subMale: "Submissive (M)", subName: "Submissive Name", safe: "Safeword", con: "Consented practices (separated by newlines)", non: "Non-consented practices (Hard Limits)", dur: "Contract duration (e.g., 6 months)", btn: "Generate PDF"
   },
   de: {
-    title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Herrin", domMale: "Herr", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub", subMale: "Sub", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
+    title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Herrin", domMale: "Herr", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub (W)", subMale: "Sub (M)", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
   },
   it: {
     title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contratto (es: 6 mesi)", btn: "Genera PDF"
@@ -22,7 +22,6 @@ const uiTranslations = {
   }
 };
 
-// Evento que cambia los textos al seleccionar un idioma
 langSelect.addEventListener('change', (e) => {
   const lang = e.target.value;
   const t = uiTranslations[lang];
@@ -40,7 +39,6 @@ langSelect.addEventListener('change', (e) => {
   document.getElementById('ui-lbl-dur').textContent = t.dur;
   document.getElementById('ui-btn-submit').textContent = t.btn;
   
-  // Cambiar el texto visual de las opciones de los roles sin alterar sus 'values' internos
   document.querySelector('#domGender option[value="Ama"]').textContent = t.domFem;
   document.querySelector('#domGender option[value="Amo"]').textContent = t.domMale;
   document.querySelector('#subGender option[value="Sumisa"]').textContent = t.subFem;
@@ -59,7 +57,6 @@ const i18n = {
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  // Obtener valores
   const lang = document.getElementById('language').value;
   const domGender = document.getElementById('domGender').value;
   const subGender = document.getElementById('subGender').value;
@@ -69,14 +66,12 @@ form.addEventListener('submit', function(e) {
   const duration = document.getElementById('duration').value.trim();
   const ui = i18n[lang]; 
 
-  // Validación de la duración multi-idioma
   const regexDuracion = /\b(día|días|dia|dias|mes|meses|año|años|ano|anos|day|days|month|months|year|years|tag|tage|monat|monate|jahr|jahre|giorno|giorni|mese|mesi|anno|anni|zi|zile|lună|luna|luni|an|ani)\b/i;
   if (!regexDuracion.test(duration)) {
     alert("Error: Missing time format in duration (e.g., '6 months', '1 año', '10 giorni', '1 Jahr').");
     return;
   }
 
-  // Locales para la fecha
   const locales = { es: 'es-ES', en: 'en-US', de: 'de-DE', it: 'it-IT', ro: 'ro-RO' };
   const currentDate = new Date().toLocaleDateString(locales[lang], { day: '2-digit', month: '2-digit', year: 'numeric' });
 
@@ -88,9 +83,10 @@ form.addEventListener('submit', function(e) {
   const consentedLines = document.getElementById('consented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
 
-  // --- REEMPLAZO DINÁMICO MULTI-IDIOMA ---
-  const applyGenders = (text) => {
+  // --- SOLUCIÓN DE CODIFICACIÓN PARA RUMANO Y GÉNEROS ---
+  const cleanText = (text) => {
     let t = text;
+    // 1. Reemplazo de géneros
     if (lang === 'es') {
       t = t.replaceAll('El Amo / el Ama', domGender === 'Amo' ? 'El Amo' : 'La Ama');
       t = t.replaceAll('El Amo/Ama', domGender === 'Amo' ? 'El Amo' : 'La Ama');
@@ -132,7 +128,6 @@ form.addEventListener('submit', function(e) {
       t = t.replaceAll('Padrone/dalla Padrona', domGender === 'Amo' ? 'Padrone' : 'dalla Padrona');
       t = t.replaceAll('Padrone/della Padrona', domGender === 'Amo' ? 'Padrone' : 'della Padrona');
       t = t.replaceAll('Padrone/alla Padrona', domGender === 'Amo' ? 'Padrone' : 'alla Padrona');
-      
       t = t.replaceAll('il Sottomesso / la Sottomessa', subGender === 'Sumiso' ? 'il Sottomesso' : 'la Sottomessa');
       t = t.replaceAll('Sottomesso/a', subGender === 'Sumiso' ? 'Sottomesso' : 'Sottomessa');
       t = t.replaceAll('Sottomesso/la mia Sottomessa', subGender === 'Sumiso' ? 'Sottomesso' : 'mia Sottomessa');
@@ -142,12 +137,20 @@ form.addEventListener('submit', function(e) {
       t = t.replaceAll('Stăpânului/Stăpânei', domGender === 'Amo' ? 'Stăpânului' : 'Stăpânei');
       t = t.replaceAll('Stăpânul/Stăpâna', domGender === 'Amo' ? 'Stăpânul' : 'Stăpâna');
       t = t.replaceAll('Stăpân/ă', domGender === 'Amo' ? 'Stăpân' : 'Stăpână');
-      
       t = t.replaceAll('Supusul / Supusa', subGender === 'Sumiso' ? 'Supusul' : 'Supusa');
       t = t.replaceAll('Supusul/ei', subGender === 'Sumiso' ? 'Supusului' : 'Supusei');
       t = t.replaceAll('Supusul/a', subGender === 'Sumiso' ? 'Supusul' : 'Supusa');
       t = t.replaceAll('Supus/ă', subGender === 'Sumiso' ? 'Supus' : 'Supusă');
       t = t.replaceAll('meu/mea', subGender === 'Sumiso' ? 'meu' : 'mea');
+      
+      // 2. Normalización de diacríticos para evitar que jsPDF rompa los márgenes y anchos
+      t = t.replace(/ă/g, 'a').replace(/Ă/g, 'A')
+           .replace(/â/g, 'a').replace(/Â/g, 'A')
+           .replace(/î/g, 'i').replace(/Î/g, 'I')
+           .replace(/ș/g, 's').replace(/Ș/g, 'S')
+           .replace(/ț/g, 't').replace(/Ț/g, 'T')
+           .replace(/ş/g, 's').replace(/Ş/g, 'S') // Por si se usan cedillas en vez de comas
+           .replace(/ţ/g, 't').replace(/Ţ/g, 'T');
     }
     return t;
   };
@@ -171,15 +174,17 @@ form.addEventListener('submit', function(e) {
 
   function calculateTextHeight(text, fontSize, isDefaultBold = false, indent = 0) {
     doc.setFontSize(fontSize);
-    if (!text.includes('**')) {
+    const processedText = cleanText(text);
+
+    if (!processedText.includes('**')) {
       doc.setFont('times', isDefaultBold ? 'bold' : 'normal');
-      const lines = doc.splitTextToSize(text, contentWidth - indent);
+      const lines = doc.splitTextToSize(processedText, contentWidth - indent);
       return (lines.length * (fontSize * 0.45)) + 3;
     }
     let currentX = margin + indent;
     let height = 0;
     const maxWidth = contentWidth - indent;
-    const paragraphs = text.split('\n');
+    const paragraphs = processedText.split('\n');
     paragraphs.forEach(paragraph => {
       let parts = paragraph.split('**');
       let isBold = false;
@@ -188,9 +193,7 @@ form.addEventListener('submit', function(e) {
         const words = part.split(/(\s+)/);
         words.forEach(word => {
           if (word === '') return;
-          // MEJORA RUMANO: Usa getTextWidth para que sea exacto con caracteres especiales
           const wordWidth = doc.getTextWidth(word);
-          // Tolerancia de 1mm añadida al final para evitar desbordes milimétricos
           if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth - 1) {
             currentX = margin + indent;
             height += fontSize * 0.45;
@@ -209,9 +212,11 @@ form.addEventListener('submit', function(e) {
   function addText(text, fontSize, isDefaultBold = false, align = 'left', indent = 0) {
     doc.setFontSize(fontSize);
     doc.setTextColor(40, 40, 40);
-    if (!text.includes('**')) {
+    const processedText = cleanText(text);
+
+    if (!processedText.includes('**')) {
       doc.setFont('times', isDefaultBold ? 'bold' : 'normal');
-      const lines = doc.splitTextToSize(text, contentWidth - indent);
+      const lines = doc.splitTextToSize(processedText, contentWidth - indent);
       lines.forEach(line => {
         checkPageBreak(7);
         let x = margin + indent;
@@ -225,7 +230,7 @@ form.addEventListener('submit', function(e) {
     let currentX = margin + indent;
     let currentY = y;
     const maxWidth = contentWidth - indent;
-    const paragraphs = text.split('\n');
+    const paragraphs = processedText.split('\n');
     paragraphs.forEach(paragraph => {
       let parts = paragraph.split('**');
       let isBold = false;
@@ -234,9 +239,7 @@ form.addEventListener('submit', function(e) {
         const words = part.split(/(\s+)/); 
         words.forEach(word => {
           if (word === '') return;
-          // MEJORA RUMANO: Usa getTextWidth para que sea exacto con caracteres especiales
           const wordWidth = doc.getTextWidth(word);
-          // Tolerancia de 1mm añadida al final para evitar desbordes milimétricos
           if (word.trim() !== '' && currentX + wordWidth > margin + indent + maxWidth - 1) {
             currentX = margin + indent;
             currentY += fontSize * 0.45;
@@ -256,13 +259,13 @@ form.addEventListener('submit', function(e) {
     y += 3;
   }
 
-  // --- 4. GENERACIÓN DEL CONTENIDO (Usando el idioma seleccionado) ---
+  // --- 4. GENERACIÓN DEL CONTENIDO ---
   const currentContract = contratos[lang];
 
   doc.setFont('times', 'bold');
   doc.setFontSize(24);
   doc.setTextColor(212, 175, 127); 
-  doc.text(ui.title, pageWidth / 2, y, { align: 'center' });
+  doc.text(cleanText(ui.title), pageWidth / 2, y, { align: 'center' });
   y += 6;
 
   doc.setDrawColor(212, 175, 127);
@@ -271,7 +274,6 @@ form.addEventListener('submit', function(e) {
   y += 15;
 
   let introText = currentContract.intro.replaceAll('${sub}', `**${sub}**`).replaceAll('${domme}', `**${domme}**`).replaceAll('${safeword}', `**${safeword}**`);
-  introText = applyGenders(introText);
   addText(introText, 12, false, 'left');
   y += 5;
 
@@ -288,7 +290,6 @@ form.addEventListener('submit', function(e) {
 
   currentContract.secciones.forEach(seccion => {
     let textoSeccion = seccion.texto.replaceAll('${safeword}', `**${safeword}**`);
-    textoSeccion = applyGenders(textoSeccion);
 
     let blockHeight = calculateTextHeight(seccion.titulo, 13, true) + 1;
     const lineas = textoSeccion.split('\n').filter(l => l.trim() !== '');
@@ -346,20 +347,17 @@ form.addEventListener('submit', function(e) {
   doc.addPage();
   y = margin + 10;
   
-  const textoSumiso = applyGenders(currentContract.firmas.sumiso);
-  const textoAma = applyGenders(currentContract.firmas.ama);
-
   const colWidth = (contentWidth / 2) - 10;
-  const col1X = margin;
-  const col2X = margin + colWidth + 20;
-
   doc.setFont('times', 'italic');
   doc.setFontSize(10);
   doc.setTextColor(80, 80, 80);
 
-  const sumisoLines = doc.splitTextToSize(textoSumiso, colWidth);
-  const amaLines = doc.splitTextToSize(textoAma, colWidth);
+  const sumisoLines = doc.splitTextToSize(cleanText(currentContract.firmas.sumiso), colWidth);
+  const amaLines = doc.splitTextToSize(cleanText(currentContract.firmas.ama), colWidth);
   
+  const col1X = margin;
+  const col2X = margin + colWidth + 20;
+
   doc.text(sumisoLines, col1X, y);
   doc.text(amaLines, col2X, y);
 
@@ -370,27 +368,27 @@ form.addEventListener('submit', function(e) {
   doc.setDrawColor(150, 150, 150);
 
   // 1. NOMBRE
-  doc.text(ui.name, col1X, y);
+  doc.text(cleanText(ui.name), col1X, y);
   doc.setFont('times', 'normal');
-  doc.text(sub, col1X + 16, y); 
+  doc.text(cleanText(sub), col1X + 16, y); 
   doc.line(col1X + 15, y + 1, col1X + colWidth, y + 1);
   
   doc.setFont('times', 'bold');
-  doc.text(ui.name, col2X, y);
+  doc.text(cleanText(ui.name), col2X, y);
   doc.setFont('times', 'normal');
-  doc.text(domme, col2X + 16, y); 
+  doc.text(cleanText(domme), col2X + 16, y); 
   doc.line(col2X + 15, y + 1, col2X + colWidth, y + 1);
 
   // 2. FECHA
   y += 10;
   doc.setFont('times', 'bold');
-  doc.text(ui.date, col1X, y);
+  doc.text(cleanText(ui.date), col1X, y);
   doc.setFont('times', 'normal');
   doc.text(currentDate, col1X + 14, y); 
   doc.line(col1X + 13, y + 1, col1X + colWidth, y + 1);
 
   doc.setFont('times', 'bold');
-  doc.text(ui.date, col2X, y);
+  doc.text(cleanText(ui.date), col2X, y);
   doc.setFont('times', 'normal');
   doc.text(currentDate, col2X + 14, y); 
   doc.line(col2X + 13, y + 1, col2X + colWidth, y + 1);
@@ -402,13 +400,12 @@ form.addEventListener('submit', function(e) {
   let firmaSub = lang === 'es' ? `${ui.signSub} ${subGender === 'Sumiso' ? 'del Sumiso' : 'de la Sumisa'}` : `${ui.signSub} (${subGender === 'Sumiso' ? uiTranslations[lang].subMale : uiTranslations[lang].subFem})`;
   let firmaDom = lang === 'es' ? `${ui.signDom} ${domGender === 'Amo' ? 'del Amo' : 'de la Ama'}` : `${ui.signDom} (${domGender === 'Amo' ? uiTranslations[lang].domMale : uiTranslations[lang].domFem})`;
   
-  doc.text(firmaSub + ':', col1X, y);
-  doc.text(firmaDom + ':', col2X, y);
+  doc.text(cleanText(firmaSub + ':'), col1X, y);
+  doc.text(cleanText(firmaDom + ':'), col2X, y);
 
   y += 20; 
   doc.line(col1X, y, col1X + colWidth, y);
   doc.line(col2X, y, col2X + colWidth, y);
 
-  // Generar PDF con sufijo de idioma
-  doc.save(`Contract_Ds_${lang.toUpperCase()}_${sub}_${domme}.pdf`);
+  doc.save(`Contract_Ds_${lang.toUpperCase()}_${cleanText(sub)}_${cleanText(domme)}.pdf`);
 });
