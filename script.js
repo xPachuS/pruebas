@@ -1,7 +1,7 @@
 const { jsPDF } = window.jspdf;
 
 const form = document.getElementById('contractForm');
-const langSelect = document.getElementById('language'); // Este ahora es un input hidden
+const langSelect = document.getElementById('language');
 
 // --- LÓGICA DEL MODO OSCURO ---
 const themeToggle = document.getElementById('theme-toggle');
@@ -34,7 +34,6 @@ document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
 
   // Abrir/Cerrar la lista
   displayInput.addEventListener('click', (e) => {
-    // Cierra todos los demás selectores antes de abrir este
     document.querySelectorAll('.custom-select-wrapper').forEach(w => {
       if (w !== wrapper) w.classList.remove('open');
     });
@@ -48,7 +47,9 @@ document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
       const value = option.getAttribute('data-value');
       const text = option.textContent;
       
+      // SOLUCIÓN: Establecer tanto la propiedad como el atributo HTML para que la etiqueta CSS flote correctamente
       displayInput.value = text;
+      displayInput.setAttribute('value', text); 
       hiddenInput.value = value;
       
       // Actualizar la clase "selected"
@@ -115,14 +116,16 @@ langSelect.addEventListener('change', (e) => {
   document.getElementById('opt-sub-fem').textContent = t.subFem;
   document.getElementById('opt-sub-male').textContent = t.subMale;
 
-  // Actualizar el valor VISIBLE si el usuario ya había seleccionado un rol y luego cambia el idioma
+  // Actualizar el valor VISIBLE y el atributo si el usuario ya había seleccionado un rol
   const currentDom = document.getElementById('domGender').value;
-  if(currentDom === 'Ama') document.getElementById('domGender-display').value = t.domFem;
-  if(currentDom === 'Amo') document.getElementById('domGender-display').value = t.domMale;
+  const domDisplay = document.getElementById('domGender-display');
+  if(currentDom === 'Ama') { domDisplay.value = t.domFem; domDisplay.setAttribute('value', t.domFem); }
+  if(currentDom === 'Amo') { domDisplay.value = t.domMale; domDisplay.setAttribute('value', t.domMale); }
 
   const currentSub = document.getElementById('subGender').value;
-  if(currentSub === 'Sumisa') document.getElementById('subGender-display').value = t.subFem;
-  if(currentSub === 'Sumiso') document.getElementById('subGender-display').value = t.subMale;
+  const subDisplay = document.getElementById('subGender-display');
+  if(currentSub === 'Sumisa') { subDisplay.value = t.subFem; subDisplay.setAttribute('value', t.subFem); }
+  if(currentSub === 'Sumiso') { subDisplay.value = t.subMale; subDisplay.setAttribute('value', t.subMale); }
 });
 
 // --- 2. TRADUCCIONES FIJAS DEL PDF ---
