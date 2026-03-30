@@ -11,6 +11,16 @@ form.addEventListener('submit', function(e) {
   const safeword = document.getElementById('safeword').value.trim().toUpperCase();
   const duration = document.getElementById('duration').value.trim();
 
+  // --- VALIDACIÓN DE LA DURACIÓN ---
+  // Busca las palabras día, días, mes, meses, año, años (con o sin tilde/eñe)
+  const regexDuracion = /\b(día|días|dia|dias|mes|meses|año|años|ano|anos)\b/i;
+  
+  if (!regexDuracion.test(duration)) {
+    alert("Error: La duración del contrato debe especificar el formato de tiempo.\nPor favor, incluye 'día', 'días', 'mes', 'meses', 'año' o 'años' (Ej: '6 meses' o '1 año').");
+    return; // Detiene la ejecución y evita que se genere el PDF
+  }
+  // ---------------------------------
+
   // Obtener y formatear la fecha actual (DD/MM/YYYY)
   const currentDate = new Date().toLocaleDateString('es-ES', {
     day: '2-digit',
@@ -178,7 +188,7 @@ form.addEventListener('submit', function(e) {
   addText(introText, 12, false, 'left');
   y += 5;
 
-  // Apartado Duración (con predicción de altura)
+  // Apartado Duración
   let duracionText = `El presente acuerdo entra en vigor en la fecha de su firma y tendrá una duración de **${duration}**. Sin embargo, ambas partes reconocen que el consentimiento es continuo y puede ser revocado mediante los mecanismos descritos en este documento.`;
   let durHeight = calculateTextHeight('Duración del Contrato', 13, true) + 1 + calculateTextHeight(duracionText, 11, false, 6) + 6;
   
@@ -193,14 +203,13 @@ form.addEventListener('submit', function(e) {
   addText(duracionText, 11, false, 'left', 6);
   y += 6;
 
-  // Secciones (con predicción de altura para no cortar enunciados)
+  // Secciones
   contrato.secciones.forEach(seccion => {
     let textoSeccion = seccion.texto
       .replaceAll('${sub}', `**${sub}**`)
       .replaceAll('${domme}', `**${domme}**`)
       .replaceAll('${safeword}', `**${safeword}**`);
 
-    // 1. Calcular altura total del bloque
     let blockHeight = calculateTextHeight(seccion.titulo, 13, true) + 1;
     const lineas = textoSeccion.split('\n').filter(l => l.trim() !== '');
     
@@ -214,13 +223,11 @@ form.addEventListener('submit', function(e) {
     });
     blockHeight += 4;
 
-    // 2. Si el bloque no cabe, saltar de página antes de escribir
     if (y + blockHeight > pageHeight - margin) {
       doc.addPage();
       y = margin + 10;
     }
 
-    // 3. Dibujar el bloque
     doc.setTextColor(0, 0, 0);
     addText(seccion.titulo, 13, true);
     y += 1;
@@ -236,7 +243,7 @@ form.addEventListener('submit', function(e) {
     y += 4;
   });
 
-  // Prácticas Consentidas (agrupadas)
+  // Prácticas Consentidas
   if (consentedLines.length > 0) {
     let blockHeight = calculateTextHeight('Prácticas Consentidas', 13, true) + 1;
     consentedLines.forEach(item => {
@@ -255,7 +262,7 @@ form.addEventListener('submit', function(e) {
     y += 4;
   }
 
-  // Prácticas No Consentidas (agrupadas)
+  // Prácticas No Consentidas
   if (nonconsentedLines.length > 0) {
     let blockHeight = calculateTextHeight('Prácticas No Consentidas (Límites Duros)', 13, true) + 1;
     nonconsentedLines.forEach(item => {
