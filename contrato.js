@@ -1,7 +1,7 @@
 const contrato = {
-  intro: `Yo ${'${sub}'}, quien soy sumiso/sumisa por gusto propio, en posesión de mis facultades, consiento, manifiesto, deseo y pretendo entregarme totalmente a las manos de ${'${domme}'}, quien será mi Amo/Ama. Por su parte el Amo/Ama, ${'${domme}'}, consiente y manifiesta que desea y pretende tomar posesión de su sumiso(a), ${'${sub}'}.
+  intro: `Yo ${'${sub}'}, quien soy sumiso/sumisa por gusto propio, en posesión de mis facultades, consiento, manifiesto, deseo y pretendo entregarme totalmente a las manos de ${'${domme}'}, quien será mi Amo/Ama. Por su parte el Amo/Ama, ${'${domme}'}, consiente y manifiesta que desea y pretende tomar posesión de su sumiso/a, ${'${sub}'}.
   
-  Por la firma de este Contrato de Sumisión, se acuerda que el sumiso/sumisa cede todos los derechos sobre su persona, y que el Amo/Ama toma completa posesión del sumiso/sumisa como propiedad, reclamando para sí misma su vida, su futuro, su corazón y su mente. Duración del contrato: ${'${duration}'}. Palabra de seguridad: ${'${safeword}'}.`,
+Por la firma de este Contrato de Sumisión, se acuerda que el sumiso/sumisa cede todos los derechos sobre su persona, y que el Amo/Ama toma completa posesión del sumiso/a como propiedad, reclamando para sí misma su vida, su futuro, su corazón y su mente. Duración del contrato: ${'${duration}'}. Palabra de seguridad: ${'${safeword}'}.`,
 
   secciones: [
     { titulo: 'A) Los Deberes del Sumiso', texto: `
