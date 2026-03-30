@@ -5,23 +5,26 @@ const form = document.getElementById('contractForm');
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  // 1. Obtener valores del formulario
+  // 1. Obtener valores del formulario (Palabra de seguridad forzada a MAYÚSCULAS)
   const domme = document.getElementById('domme').value.trim();
   const sub = document.getElementById('sub').value.trim();
-  const safeword = document.getElementById('safeword').value.trim();
+  const safeword = document.getElementById('safeword').value.trim().toUpperCase();
   const duration = document.getElementById('duration').value.trim();
 
-  // Función para capitalizar la primera letra
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  // Función para primera letra en mayúscula y el resto estrictamente en minúsculas
+  const formatPractice = (str) => {
+    const trimmed = str.trim();
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+  };
 
-  // Filtrar líneas vacías y capitalizar la primera letra
+  // Filtrar líneas vacías y formatear el texto
   const consentedLines = document.getElementById('consented').value.trim().split('\n')
     .filter(l => l.trim() !== '')
-    .map(capitalize);
+    .map(formatPractice);
     
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n')
     .filter(l => l.trim() !== '')
-    .map(capitalize);
+    .map(formatPractice);
 
   // 2. Configuración inicial del PDF
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
