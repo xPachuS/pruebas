@@ -15,6 +15,8 @@
   --label-color: #aaaaaa;
   --accent-color: #d4af7f;
   --container-shadow: rgba(0,0,0,0.08);
+  --option-hover-bg: #d4af7f; /* Color fondo hover opciones */
+  --option-hover-color: #ffffff; /* Color texto hover opciones */
 }
 
 /* --- VARIABLES DE COLOR (Modo Oscuro) --- */
@@ -27,6 +29,8 @@ body.dark-mode {
   --label-color: #888888;
   --accent-color: #d4af7f; /* Mantenemos el acento dorado */
   --container-shadow: rgba(0,0,0,0.5);
+  --option-hover-bg: #d4af7f;
+  --option-hover-color: #121212; /* Ajuste para mejor lectura en modo oscuro si el fondo es dorado */
 }
 
 body {
@@ -102,10 +106,11 @@ form {
   margin-bottom: 10px; /* Margen extra para cuando se apilan en móvil */
 }
 
-/* Aplicamos estilos base también al select */
+/* Aplicamos estilos base también al select nativo (por si quedan) y al custom-trigger */
 .form-group input,
 .form-group textarea,
-.form-group select {
+.form-group select,
+.custom-select-trigger {
   width: 100%;
   border: none;
   border-bottom: 2px solid var(--border-color);
@@ -130,7 +135,8 @@ form {
 
 .form-group input:focus,
 .form-group textarea:focus,
-.form-group select:focus {
+.form-group select:focus,
+.custom-select-trigger:focus {
   outline: none;
   border-bottom-color: var(--accent-color);
 }
@@ -143,15 +149,18 @@ form {
   color: var(--label-color);
   pointer-events: none;
   transition: all 0.3s ease;
+  z-index: 1;
 }
 
-/* Lógica de etiqueta flotante para inputs, textareas y selects */
+/* Lógica de etiqueta flotante para inputs, textareas y custom select */
 .form-group input:focus + label,
 .form-group input:not(:placeholder-shown) + label,
 .form-group textarea:focus + label,
 .form-group textarea:not(:placeholder-shown) + label,
 .form-group select:focus + label,
-.form-group select:valid + label {
+.form-group select:valid + label,
+.custom-select-trigger:focus ~ label,
+.custom-select-trigger:not([value=""]) ~ label {
   top: -5px;
   font-size: 12px;
   color: var(--accent-color);
@@ -217,4 +226,89 @@ button#theme-toggle:hover {
   transform: scale(1.1);
   box-shadow: none;
   background: transparent;
+}
+
+
+/* --- ESTILOS PARA LOS DESPLEGABLES PERSONALIZADOS --- */
+.custom-select-wrapper {
+  position: relative;
+}
+
+.custom-select-trigger {
+  cursor: pointer;
+  user-select: none;
+  padding-right: 30px !important; /* Espacio para la flecha */
+}
+
+/* Ocultar el input hidden visualmente pero mantenerlo funcional */
+.custom-select-wrapper input[type="hidden"] {
+  display: none;
+}
+
+/* Flecha animada */
+.custom-arrow {
+  position: absolute;
+  right: 5px;
+  top: 25px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: translateY(-50%) rotate(45deg);
+  pointer-events: none;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-select-wrapper.open .custom-arrow {
+  transform: translateY(-50%) rotate(225deg);
+  border-color: var(--accent-color);
+}
+
+.custom-select-wrapper.open .custom-select-trigger {
+    border-bottom-color: var(--accent-color);
+}
+
+/* Caja de opciones flotante */
+.custom-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--container-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px var(--container-shadow);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.custom-select-wrapper.open .custom-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Opciones individuales */
+.custom-option {
+  padding: 12px 15px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: background 0.2s ease, color 0.2s ease;
+  font-size: 15px;
+}
+
+.custom-option:hover {
+  background: var(--option-hover-bg);
+  color: var(--option-hover-color);
+}
+
+.custom-option.selected {
+  background: rgba(212, 175, 127, 0.15);
+  font-weight: bold;
+  color: var(--accent-color);
 }
