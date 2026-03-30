@@ -193,7 +193,7 @@ form.addEventListener('submit', function(e) {
   // Prácticas No Consentidas
   if (nonconsentedLines.length > 0) {
     checkPageBreak(20);
-    addText('Prácticas No Consentidas (Límites Duros)', 13, true);
+    addText('Prácticas No Consentidas', 13, true);
     y += 1;
     nonconsentedLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
     y += 12;
