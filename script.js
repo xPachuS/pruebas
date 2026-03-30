@@ -48,7 +48,7 @@ form.addEventListener('submit', function(e) {
     t = t.replaceAll('el Amo/Ama', domGender === 'Amo' ? 'el Amo' : 'la Ama');
     t = t.replaceAll('al Amo/Ama', domGender === 'Amo' ? 'al Amo' : 'a la Ama');
     t = t.replaceAll('del Amo/Ama', domGender === 'Amo' ? 'del Amo' : 'de la Ama');
-    t = t.replaceAll('Amo/Ama', domGender); // Reemplazo general para los sueltos
+    t = t.replaceAll('Amo/Ama', domGender); 
     
     // Parte Sumisa (Mayúsculas)
     t = t.replaceAll('El Sumiso / la Sumisa', subGender === 'Sumiso' ? 'El Sumiso' : 'La Sumisa');
@@ -281,7 +281,10 @@ form.addEventListener('submit', function(e) {
   }
 
   // --- SECCIÓN DE FIRMAS ---
-  checkPageBreak(50); 
+  
+  // OBLIGAMOS A SALTAR DE PÁGINA AQUÍ:
+  doc.addPage();
+  y = margin + 10;
   
   const textoSumiso = applyGenders(contrato.firmas.sumiso.replace(/Nombre completo:[\s\S]*/, '').trim());
   const textoAma = applyGenders(contrato.firmas.ama.replace(/Nombre completo:[\s\S]*/, '').trim());
