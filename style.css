@@ -105,21 +105,10 @@ button:hover {
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Textareas de prácticas */
+/* Textareas scrollables y tamaño fijo */
 textarea {
-  height: 120px;          /* Más alto para ver varias líneas */
-  resize: none;           /* No se puede cambiar tamaño */
-  overflow-y: auto;       /* Scroll vertical si hay más contenido */
-  padding: 8px 10px;
-  border: none;
-  border-bottom: 2px solid #ccc;
-  font-size: 15px;
-  background: transparent;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-textarea:focus {
-  outline: none;
-  border-bottom-color: #d4af7f;
-  box-shadow: 0 0 0 2px rgba(212,175,127,0.2);
+  resize: none;
+  min-height: 100px;
+  max-height: 150px;
+  overflow-y: auto;
 }
