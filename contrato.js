@@ -44,7 +44,7 @@ const contratos = {
 `},
       { titulo: 'H) Terminación y Modificación del Contrato', texto: `
 - Este contrato puede ser renegociado o modificado en cualquier momento siempre que exista mutuo acuerdo.
-- Cualquiera de las partes puede dar por terminada esta dinámica y disolver este contrato en cualquier momento, comunicándolo de forma clara e inequívoca a la otra parte. En tal caso, cesarán todas las obligaciones de sumisión y dominio.
+- Cualquiera de las partes puede dar por terminada esta dinámica y disolver este contrato en cualquier momento, comunicándolo de forma clara e inequívoca a la otra parte. In tal caso, cesarán todas las obligaciones de sumisión y dominio.
 `}
     ],
     firmas: {
@@ -70,7 +70,7 @@ const contratos = {
 `},
       { titulo: 'C) Duties and Obligations of the Submissive', texto: `
 - To fully and voluntarily submit to the authority, will, and desires of the Dom/Domme, always within the agreed limits.
-- To address the Dom/Domme using the agreed titles of respect ("Dom", "Domme", "Sir", "Madam", etc.) and maintain a respectful tone at all times.
+- To address the Dom/Domme using the agreed titles of respect ("Master", "Mistress", "Sir", "Ma'am", etc.) and maintain a respectful tone at all times.
 - To be radically honest with the Dom/Domme. Lying, hiding relevant information, or omitting details about their health, emotions, or actions constitutes a serious offense.
 - To strive to anticipate and satisfy the needs of the Dom/Domme, actively seeking to please them.
 - To accept the discipline and punishments administered by the Dom/Domme as tools of learning and devotion, without complaining about the correction.
@@ -124,7 +124,7 @@ const contratos = {
 `},
       { titulo: 'C) Pflichten und Obliegenheiten des/der Sub', texto: `
 - Sich der Autorität, dem Willen und den Wünschen des Doms / der Domme stets innerhalb der vereinbarten Grenzen voll und freiwillig zu unterwerfen.
-- Sich an den Dom / die Domme mit den vereinbarten Respektstiteln ("Dom", "Domme", "Sir", "Madam", etc.) zu wenden und stets einen respektvollen Ton beizubehalten.
+- Sich an den Dom / die Domme mit den vereinbarten Respektstiteln ("Herr", "Herrin", "Meister", "Gnädige Frau", etc.) zu wenden und stets einen respektvollen Ton beizubehalten.
 - Radikal ehrlich gegenüber dem Dom / der Domme zu sein. Lügen, das Verbergen relevanter Informationen oder das Weglassen von Details über Gesundheit, Emotionen oder Handlungen stellt ein schweres Vergehen dar.
 - Sich zu bemühen, die Bedürfnisse des Doms / der Domme zu antizipieren und zu befriedigen und aktiv danach zu streben, ihm/ihr zu gefallen.
 - Die vom Dom / von der Domme verhängte Disziplin und die Strafen als Werkzeuge des Lernens und der Hingabe zu akzeptieren, ohne sich über die Korrektur zu beschweren.
@@ -187,7 +187,7 @@ const contratos = {
       { titulo: 'D) Responsabilità e Privilegi del Padrone/della Padrona', texto: `
 - Rivendicare la proprietà consensuale sul corpo, sull'attenzione e sul servizio del Sottomesso/a per il proprio piacere, comfort o convenienza.
 - Proteggere, curare e vegliare sul benessere fisico, emotivo e psicologico del Sottomesso/a.
-- Prestare attenzione ai limiti e alle capacità del Sottomesso/a, spingendolo/a a crescere ma senza metterlo/a in un rischio reale non pattuito.
+- Prestare attenzione ai limiti e alle capacità del Sottomesso/a, spingendolo/a a crescere ma senza metterlo/a in un riesgo reale non pattuito.
 - Amministrare la disciplina in modo giusto, proporzionato e senza rabbia incontrollata.
 - Fornire le cure successive (Aftercare) necessarie dopo sessioni intense, fisiche o psicologiche, per assicurare il ritorno del Sottomesso/a a uno stato di calma emotiva.
 `},
@@ -248,11 +248,11 @@ const contratos = {
       { titulo: 'E) Disciplină și Pedepse', texto: `
 - Supusul/a recunoaște că comiterea de greșeli, neascultarea sau afișarea unor atitudini lipsite de respect va duce la aplicarea de măsuri disciplinare.
 - Stăpânul/Stăpâna are puterea exclusivă de a determina natura și severitatea pedepsei, respectând întotdeauna Limitele Dure.
-- Pedeapsa nu este un act de ură, ci o corecție pentru a restabili dinamica și a șterge vina Supusului/ei. Odată îndeplinită pedeapsa, greșeala este considerată iertată.
+- Pedeapsa nu este un act de ură, si o corecție pentru a restabili dinamica și a șterge vina Supusului/ei. Odată îndeplinită pedeapsa, greșeala este considerată iertată.
 `},
       { titulo: 'F) Transparență și Comunicare', texto: `
 - Comunicarea deschisă este pilonul acestui acord. Supusul/a trebuie să își poată exprima fricile, nesiguranțele sau anxietățile față de Stăpân/ă fără frica de a fi pedepsit pentru sentimentele sale.
-- Se vor stabili momente regulate (check-ins) pentru a revizui dinamica, a discuta ce funcționează, ce trebuie îmbunătățit și dacă este necesar să se reajusteze limitele.
+- Se vor stabili momente regulate (check-ins) para a revizui dinamica, a discuta ce funcționează, ce trebuie îmbunătățit și dacă este necesar să se reajusteze limitele.
 `},
       { titulo: 'G) Exclusivitate și Alte Relații', texto: `
 - Supusul/a va păstra exclusivitatea fizică, sexuală și de serviciu față de Stăpân/ă, cu excepția cazului în care Stăpânul/Stăpâna acordă o permisiune explicită și prealabilă pentru contrariul.
