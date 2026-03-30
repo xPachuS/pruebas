@@ -3,7 +3,7 @@ const contrato = {
 
 A través de este Contrato, ${'${sub}'}, en pleno uso de sus facultades, declara su más profundo deseo y elección de entregar el control de sus acciones, su cuerpo, su servicio y su mente a la autoridad de ${'${domme}'}. A su vez, el Amo/Ama acepta esta devoción y sumisión, asumiendo la grave responsabilidad de guiar, moldear, disciplinar y proteger a su propiedad.
 
-Este acuerdo no tiene validez legal, sino que representa un vínculo de honor fundamentado en la confianza absoluta, el respeto mutuo, la honestidad radical y el consentimiento continuo. Duración del contrato: ${'${duration}'}. Palabra de seguridad principal: ${'${safeword}'}.`,
+Este acuerdo no tiene validez legal, sino que representa un vínculo de honor fundamentado en la confianza absoluta, el respeto mutuo, la honestidad radical y el consentimiento continuo.`,
 
   secciones: [
     { titulo: 'A) Naturaleza del Consentimiento, SSC y RACK', texto: `
