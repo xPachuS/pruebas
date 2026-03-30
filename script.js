@@ -1,7 +1,7 @@
 const { jsPDF } = window.jspdf;
 
 const form = document.getElementById('contractForm');
-const langSelect = document.getElementById('language');
+const langSelect = document.getElementById('language'); // Este ahora es un input hidden
 
 // --- LÓGICA DEL MODO OSCURO ---
 const themeToggle = document.getElementById('theme-toggle');
@@ -26,6 +26,52 @@ themeToggle.addEventListener('click', () => {
 });
 // -------------------------------
 
+// --- LÓGICA DE DESPLEGABLES PERSONALIZADOS (Custom Selects) ---
+document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+  const displayInput = wrapper.querySelector('.custom-select-trigger');
+  const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+  const options = wrapper.querySelectorAll('.custom-option');
+
+  // Abrir/Cerrar la lista
+  displayInput.addEventListener('click', (e) => {
+    // Cierra todos los demás selectores antes de abrir este
+    document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+      if (w !== wrapper) w.classList.remove('open');
+    });
+    wrapper.classList.toggle('open');
+    e.stopPropagation();
+  });
+
+  // Al hacer clic en una opción
+  options.forEach(option => {
+    option.addEventListener('click', (e) => {
+      const value = option.getAttribute('data-value');
+      const text = option.textContent;
+      
+      displayInput.value = text;
+      hiddenInput.value = value;
+      
+      // Actualizar la clase "selected"
+      options.forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      wrapper.classList.remove('open');
+
+      // Si es el selector de idioma, forzamos un evento "change" en el input oculto
+      if (hiddenInput.id === 'language') {
+        const event = new Event('change');
+        hiddenInput.dispatchEvent(event);
+      }
+      e.stopPropagation();
+    });
+  });
+});
+
+// Cerrar los desplegables si haces clic en cualquier otra parte de la pantalla
+document.addEventListener('click', () => {
+  document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+});
+// -------------------------------
+
 // --- 1. TRADUCCIONES DE LA INTERFAZ DEL FORMULARIO ---
 const uiTranslations = {
   es: {
@@ -38,7 +84,7 @@ const uiTranslations = {
     title: "D/s Vertrag", subtitle: "Generieren Sie Ihren personalisierten PDF-Vertrag", lang: "Sprache", domRole: "Dominante Rolle", domFem: "Herrin", domMale: "Herr", domName: "Name des Dominanten", subRole: "Submissive Rolle", subFem: "Sub (W)", subMale: "Sub (M)", subName: "Name des Sub", safe: "Sicherheitswort", con: "Einvernehmliche Praktiken (durch Zeilenumbrüche getrennt)", non: "Nicht einvernehmliche Praktiken (Harte Grenzen)", dur: "Vertragsdauer (z.B. 6 Monate)", btn: "PDF generieren"
   },
   it: {
-    title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contrato (es: 6 mesi)", btn: "Genera PDF"
+    title: "Contratto D/s", subtitle: "Genera il tuo contratto PDF personalizzato", lang: "Lingua", domRole: "Ruolo Dominante", domFem: "Padrona", domMale: "Padrone", domName: "Nome Dominante", subRole: "Ruolo Sottomesso/a", subFem: "Sottomessa", subMale: "Sottomesso", subName: "Nome Sottomesso/a", safe: "Parola di sicurezza", con: "Pratiche acconsentite (separate da ritorni a capo)", non: "Pratiche non acconsentite (Limiti Invalicabili)", dur: "Durata del contratto (es: 6 mesi)", btn: "Genera PDF"
   },
   ro: {
     title: "Contract D/s", subtitle: "Generează-ți contractul PDF personalizat", lang: "Limba", domRole: "Rol Dominant", domFem: "Stăpână", domMale: "Stăpân", domName: "Nume Dominant", subRole: "Rol Supus/ă", subFem: "Supusă", subMale: "Supus", subName: "Nume Supus/ă", safe: "Cuvânt de siguranță", con: "Practici consimțite (separate prin rânduri noi)", non: "Practici neconsimțite (Limite Dure)", dur: "Durata contractului (ex: 6 luni)", btn: "Generează PDF"
@@ -49,6 +95,7 @@ langSelect.addEventListener('change', (e) => {
   const lang = e.target.value;
   const t = uiTranslations[lang];
   
+  // Cambiar los textos estáticos
   document.getElementById('ui-title').textContent = t.title;
   document.getElementById('ui-subtitle').textContent = t.subtitle;
   document.getElementById('ui-lbl-lang').textContent = t.lang;
@@ -62,10 +109,20 @@ langSelect.addEventListener('change', (e) => {
   document.getElementById('ui-lbl-dur').textContent = t.dur;
   document.getElementById('ui-btn-submit').textContent = t.btn;
   
-  document.querySelector('#domGender option[value="Ama"]').textContent = t.domFem;
-  document.querySelector('#domGender option[value="Amo"]').textContent = t.domMale;
-  document.querySelector('#subGender option[value="Sumisa"]').textContent = t.subFem;
-  document.querySelector('#subGender option[value="Sumiso"]').textContent = t.subMale;
+  // Cambiar el texto visual de las OPCIONES en los desplegables personalizados
+  document.getElementById('opt-dom-fem').textContent = t.domFem;
+  document.getElementById('opt-dom-male').textContent = t.domMale;
+  document.getElementById('opt-sub-fem').textContent = t.subFem;
+  document.getElementById('opt-sub-male').textContent = t.subMale;
+
+  // Actualizar el valor VISIBLE si el usuario ya había seleccionado un rol y luego cambia el idioma
+  const currentDom = document.getElementById('domGender').value;
+  if(currentDom === 'Ama') document.getElementById('domGender-display').value = t.domFem;
+  if(currentDom === 'Amo') document.getElementById('domGender-display').value = t.domMale;
+
+  const currentSub = document.getElementById('subGender').value;
+  if(currentSub === 'Sumisa') document.getElementById('subGender-display').value = t.subFem;
+  if(currentSub === 'Sumiso') document.getElementById('subGender-display').value = t.subMale;
 });
 
 // --- 2. TRADUCCIONES FIJAS DEL PDF ---
