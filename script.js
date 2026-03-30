@@ -1,3 +1,5 @@
+// script.js
+
 const form = document.getElementById('contractForm');
 
 // Capitalizar la primera letra de cada palabra
@@ -17,13 +19,13 @@ function fillPlaceholders(text, values) {
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  // Obtener y capitalizar valores
+  // Obtener valores
   const sub = capitalizeWords(document.getElementById('sub').value.trim());
   const domme = capitalizeWords(document.getElementById('domme').value.trim());
   const safeword = capitalizeWords(document.getElementById('safeword').value.trim());
   const duration = capitalizeWords(document.getElementById('duration').value.trim());
 
-  // Prácticas: convertir a listas y capitalizar
+  // Convertir prácticas a listas y capitalizar
   const consented = document.getElementById('consented').value
     .trim()
     .split('\n')
@@ -37,6 +39,7 @@ form.addEventListener('submit', function(e) {
     .map(line => capitalizeWords(line));
 
   // Crear PDF
+  const { jsPDF } = window.jspdf; // Necesario con la versión UMD
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -56,7 +59,7 @@ form.addEventListener('submit', function(e) {
       doc.text(line, margin, y, { maxWidth: pageWidth - 2 * margin, align: 'justify' });
       y += lineHeight;
     });
-    y += 3; // espacio extra después del párrafo
+    y += 3; // espacio extra
   }
 
   function addList(title, items) {
@@ -64,17 +67,16 @@ form.addEventListener('submit', function(e) {
     items.forEach(item => addText(`- ${item}`, 'normal', 12));
   }
 
-  // Reemplazar placeholders en intro y secciones
   const values = { sub, domme, duration, safeword };
 
+  // Intro y secciones del contrato
   addText(fillPlaceholders(contrato.intro, values), 'normal', 12);
-
   contrato.secciones.forEach(sec => {
     addText(fillPlaceholders(sec.titulo, values), 'bold', 14);
     addText(fillPlaceholders(sec.texto, values), 'normal', 12);
   });
 
-  // Agregar listas de prácticas
+  // Listas de prácticas
   addList('Prácticas Consentidas:', consented);
   addList('Prácticas No Consentidas:', nonconsented);
 
