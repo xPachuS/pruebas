@@ -9,8 +9,8 @@
 <body>
 
   <div class="container">
-    <h1>Contrato D/s</h1>
-    <p class="subtitle">Genera tu contrato personalizado en PDF</p>
+    <h1 id="ui-title">Contrato D/s</h1>
+    <p id="ui-subtitle" class="subtitle">Genera tu contrato personalizado en PDF</p>
 
     <br>
 
@@ -24,7 +24,7 @@
           <option value="it">Italiano</option>
           <option value="ro">Română</option>
         </select>
-        <label for="language">Idioma / Language</label>
+        <label for="language" id="ui-lbl-lang">Idioma / Language</label>
       </div>
       
       <div class="form-row">
@@ -34,11 +34,11 @@
             <option value="Ama">Ama</option>
             <option value="Amo">Amo</option>
           </select>
-          <label for="domGender">Rol Dominante</label>
+          <label for="domGender" id="ui-lbl-domRole">Rol Dominante</label>
         </div>
         <div class="form-group name-group">
           <input type="text" id="domme" placeholder=" " required>
-          <label for="domme">Nombre Dominante</label>
+          <label for="domme" id="ui-lbl-domName">Nombre Dominante</label>
         </div>
       </div>
 
@@ -49,37 +49,37 @@
             <option value="Sumisa">Sumisa</option>
             <option value="Sumiso">Sumiso</option>
           </select>
-          <label for="subGender">Rol Sumiso/a</label>
+          <label for="subGender" id="ui-lbl-subRole">Rol Sumiso/a</label>
         </div>
         <div class="form-group name-group">
           <input type="text" id="sub" placeholder=" " required>
-          <label for="sub">Nombre Sumiso/a</label>
+          <label for="sub" id="ui-lbl-subName">Nombre Sumiso/a</label>
         </div>
       </div>
 
       <div class="form-group">
         <input type="text" id="safeword" placeholder=" " required>
-        <label for="safeword">Palabra de seguridad</label>
+        <label for="safeword" id="ui-lbl-safe">Palabra de seguridad</label>
       </div>
 
       <div class="form-group">
         <textarea id="consented" placeholder=" " required></textarea>
-        <label for="consented">Prácticas consentidas (separadas por saltos de línea)</label>
+        <label for="consented" id="ui-lbl-con">Prácticas consentidas (separadas por saltos de línea)</label>
       </div>
 
       <div class="form-group">
         <textarea id="nonconsented" placeholder=" " required></textarea>
-        <label for="nonconsented">Prácticas no consentidas (Límites Duros)</label>
+        <label for="nonconsented" id="ui-lbl-non">Prácticas no consentidas (Límites Duros)</label>
       </div>
 
       <div class="form-group">
         <input type="text" id="duration" placeholder=" " required>
-        <label for="duration">Duración del contrato (ej: 6 meses)</label>
+        <label for="duration" id="ui-lbl-dur">Duración del contrato (ej: 6 meses)</label>
       </div>
 
       <br>
 
-      <button type="submit">Generar PDF</button>
+      <button type="submit" id="ui-btn-submit">Generar PDF</button>
     </form>
   </div>
 
