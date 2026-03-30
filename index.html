@@ -18,25 +18,30 @@
 
     <form id="contractForm">
       
-      <div class="form-group">
-        <select id="language" required>
-          <option value="es" selected>Español</option>
-          <option value="en">English</option>
-          <option value="de">Deutsch</option>
-          <option value="it">Italiano</option>
-          <option value="ro">Română</option>
-        </select>
-        <label for="language" id="ui-lbl-lang">Idioma / Language</label>
+      <div class="form-group custom-select-wrapper">
+        <input type="text" id="lang-display" class="custom-select-trigger" readonly placeholder=" " required value="Español">
+        <input type="hidden" id="language" value="es">
+        <label for="lang-display" id="ui-lbl-lang">Idioma / Language</label>
+        <span class="custom-arrow"></span>
+        <div class="custom-options">
+          <div class="custom-option selected" data-value="es">Español</div>
+          <div class="custom-option" data-value="en">English</div>
+          <div class="custom-option" data-value="de">Deutsch</div>
+          <div class="custom-option" data-value="it">Italiano</div>
+          <div class="custom-option" data-value="ro">Română</div>
+        </div>
       </div>
       
       <div class="form-row">
-        <div class="form-group role-group">
-          <select id="domGender" required>
-            <option value="" disabled selected hidden></option>
-            <option value="Ama">Ama</option>
-            <option value="Amo">Amo</option>
-          </select>
-          <label for="domGender" id="ui-lbl-domRole">Rol Dominante</label>
+        <div class="form-group role-group custom-select-wrapper">
+          <input type="text" id="domGender-display" class="custom-select-trigger" readonly placeholder=" " required value="">
+          <input type="hidden" id="domGender" value="">
+          <label for="domGender-display" id="ui-lbl-domRole">Rol Dominante</label>
+          <span class="custom-arrow"></span>
+          <div class="custom-options">
+            <div class="custom-option" data-value="Ama" id="opt-dom-fem">Ama</div>
+            <div class="custom-option" data-value="Amo" id="opt-dom-male">Amo</div>
+          </div>
         </div>
         <div class="form-group name-group">
           <input type="text" id="domme" placeholder=" " required>
@@ -45,13 +50,15 @@
       </div>
 
       <div class="form-row">
-        <div class="form-group role-group">
-          <select id="subGender" required>
-            <option value="" disabled selected hidden></option>
-            <option value="Sumisa">Sumisa</option>
-            <option value="Sumiso">Sumiso</option>
-          </select>
-          <label for="subGender" id="ui-lbl-subRole">Rol Sumiso/a</label>
+        <div class="form-group role-group custom-select-wrapper">
+          <input type="text" id="subGender-display" class="custom-select-trigger" readonly placeholder=" " required value="">
+          <input type="hidden" id="subGender" value="">
+          <label for="subGender-display" id="ui-lbl-subRole">Rol Sumiso/a</label>
+          <span class="custom-arrow"></span>
+          <div class="custom-options">
+            <div class="custom-option" data-value="Sumisa" id="opt-sub-fem">Sumisa</div>
+            <div class="custom-option" data-value="Sumiso" id="opt-sub-male">Sumiso</div>
+          </div>
         </div>
         <div class="form-group name-group">
           <input type="text" id="sub" placeholder=" " required>
