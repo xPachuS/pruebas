@@ -116,6 +116,7 @@ langSelect.addEventListener('change', (e) => {
   if(currentSub === 'Sumisa') { subDisplay.value = t.subFem; subDisplay.setAttribute('value', t.subFem); }
   if(currentSub === 'Sumiso') { subDisplay.value = t.subMale; subDisplay.setAttribute('value', t.subMale); }
 
+  // Solo actualizar el display de Exclusividad si ya había seleccionado una opción
   const currentExcl = document.getElementById('exclusivity').value;
   const exclDisplay = document.getElementById('exclusivity-display');
   if(currentExcl === 'total') { exclDisplay.value = t.exclTotal; exclDisplay.setAttribute('value', t.exclTotal); }
