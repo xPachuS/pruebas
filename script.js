@@ -193,7 +193,7 @@ form.addEventListener('submit', function(e) {
   // Prácticas No Consentidas
   if (nonconsentedLines.length > 0) {
     checkPageBreak(20);
-    addText('Prácticas No Consentidas', 13, true);
+    addText('Prácticas No Consentidas (Límites Duros)', 13, true);
     y += 1;
     nonconsentedLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
     y += 12;
@@ -213,48 +213,60 @@ form.addEventListener('submit', function(e) {
   doc.setFontSize(10);
   doc.setTextColor(80, 80, 80);
 
+  // Párrafos de compromiso
   const sumisoLines = doc.splitTextToSize(textoSumiso, colWidth);
   const amaLines = doc.splitTextToSize(textoAma, colWidth);
   
   doc.text(sumisoLines, col1X, y);
   doc.text(amaLines, col2X, y);
 
+  // Ajustar la posición Y justo debajo del texto de compromiso más largo
   y += Math.max(sumisoLines.length, amaLines.length) * 5 + 15;
 
   doc.setFont('times', 'bold');
   doc.setTextColor(0, 0, 0);
   doc.setDrawColor(150, 150, 150);
 
+  // --- 1. NOMBRE ---
   // Columna Sumiso
-  doc.text('Firma del Sumiso/a:', col1X, y);
-  doc.line(col1X + 32, y, col1X + colWidth, y);
-  
-  doc.text('Nombre:', col1X, y + 10);
+  doc.text('Nombre:', col1X, y);
   doc.setFont('times', 'normal');
-  doc.text(sub, col1X + 16, y + 10); 
-  doc.line(col1X + 15, y + 10, col1X + colWidth, y + 10);
+  doc.text(sub, col1X + 16, y); 
+  doc.line(col1X + 15, y + 1, col1X + colWidth, y + 1);
   
+  // Columna Ama
   doc.setFont('times', 'bold');
-  doc.text('Fecha:', col1X, y + 20);
+  doc.text('Nombre:', col2X, y);
   doc.setFont('times', 'normal');
-  doc.text(currentDate, col1X + 14, y + 20); // Fecha inyectada
-  doc.line(col1X + 12, y + 20, col1X + colWidth, y + 20);
+  doc.text(domme, col2X + 16, y); 
+  doc.line(col2X + 15, y + 1, col2X + colWidth, y + 1);
+
+  // --- 2. FECHA ---
+  y += 10;
+  // Columna Sumiso
+  doc.setFont('times', 'bold');
+  doc.text('Fecha:', col1X, y);
+  doc.setFont('times', 'normal');
+  doc.text(currentDate, col1X + 14, y); 
+  doc.line(col1X + 13, y + 1, col1X + colWidth, y + 1);
 
   // Columna Ama
   doc.setFont('times', 'bold');
-  doc.text('Firma del Amo/Ama:', col2X, y);
-  doc.line(col2X + 34, y, col2X + colWidth, y);
-  
-  doc.text('Nombre:', col2X, y + 10);
+  doc.text('Fecha:', col2X, y);
   doc.setFont('times', 'normal');
-  doc.text(domme, col2X + 16, y + 10); 
-  doc.line(col2X + 15, y + 10, col2X + colWidth, y + 10);
-  
+  doc.text(currentDate, col2X + 14, y); 
+  doc.line(col2X + 13, y + 1, col2X + colWidth, y + 1);
+
+  // --- 3. FIRMA (CON HUECO) ---
+  y += 15;
   doc.setFont('times', 'bold');
-  doc.text('Fecha:', col2X, y + 20);
-  doc.setFont('times', 'normal');
-  doc.text(currentDate, col2X + 14, y + 20); // Fecha inyectada
-  doc.line(col2X + 12, y + 20, col2X + colWidth, y + 20);
+  doc.text('Firma del Sumiso/a:', col1X, y);
+  doc.text('Firma del Amo/Ama:', col2X, y);
+
+  // Hueco prudencial de 20mm para la firma física antes de dibujar la línea
+  y += 20; 
+  doc.line(col1X, y, col1X + colWidth, y);
+  doc.line(col2X, y, col2X + colWidth, y);
 
   // 3. Generar PDF
   doc.save(`Contrato_Ds_${sub}_${domme}.pdf`);
