@@ -14,7 +14,13 @@ form.addEventListener('submit', function(e) {
   const watermarkFile = document.getElementById('watermark').files[0];
 
   if (!exclusivity) {
-    const errorMsg = { es: "Error: Debes seleccionar una regla de exclusividad.", en: "Error: You must select an exclusivity rule.", de: "Fehler: Sie müssen eine Exklusivitätsregel auswählen.", it: "Errore: Devi selezionare una regola di esclusività.", ro: "Eroare: Trebuie să selectați o regulă de exclusivitate." };
+    const errorMsg = { 
+      es: "Error: Debes seleccionar una regla de exclusividad.", 
+      en: "Error: You must select an exclusivity rule.", 
+      de: "Fehler: Sie müssen eine Exklusivitätsregel auswählen.", 
+      it: "Errore: Devi selezionare una regola di esclusività.", 
+      ro: "Eroare: Trebuie să selectați o regulă de exclusivitate." 
+    };
     alert(errorMsg[lang] || errorMsg.es);
     return;
   }
@@ -42,39 +48,13 @@ form.addEventListener('submit', function(e) {
       watermark: imgData, watermarkWidth: imgWidth, watermarkHeight: imgHeight
     };
 
+    // 1. Generar y descargar el PDF
     generateContractPDF(contractData);
 
-    // 1. Resetear formulario nativo (inputs de texto y archivos)
-    form.reset();
-
-    // 2. Limpiar los valores ocultos de los desplegables
-    document.getElementById('domGender').value = '';
-    document.getElementById('subGender').value = '';
-    document.getElementById('exclusivity').value = '';
-
-    // 3. Limpiar los textos visuales de los desplegables
-    document.getElementById('domGender-display').value = '';
-    document.getElementById('domGender-display').setAttribute('value', '');
-    document.getElementById('subGender-display').value = '';
-    document.getElementById('subGender-display').setAttribute('value', '');
-    document.getElementById('exclusivity-display').value = '';
-    document.getElementById('exclusivity-display').setAttribute('value', '');
-    
-    // 4. Restaurar el idioma por defecto
-    document.getElementById('lang-display').value = 'Español';
-    document.getElementById('lang-display').setAttribute('value', 'Español');
-    document.getElementById('language').value = 'es';
-
-    // 5. Limpiar las clases 'selected' de todas las opciones en los menús
-    document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
-    
-    // 6. Volver a marcar el español como seleccionado
-    const spanishOption = document.querySelector('.custom-option[data-value="es"]');
-    if (spanishOption) spanishOption.classList.add('selected');
-
-    // 7. Disparar evento para que la UI vuelva al español y recalcule etiquetas
-    const event = new Event('change');
-    document.getElementById('language').dispatchEvent(event);
+    // 2. Recargar la página completamente tras 1 segundo para asegurar la descarga
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   // Leer imagen si el usuario la subió
