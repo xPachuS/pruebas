@@ -1,0 +1,68 @@
+{
+    "protocolo": {
+        "soft": [
+            "Mantener mirada baja", 
+            "Silencio absoluto", 
+            "Atención visual a mis ojos", 
+            "Servir agua de rodillas", 
+            "Recitar las normas", 
+            "Permanecer en reposo"
+        ],
+        "medium": [
+            "Postura de presentación 10 min", 
+            "Antifaz de aislamiento", 
+            "Escribir 50 frases", 
+            "Solicitar permiso", 
+            "Manos atrás"
+        ],
+        "strong": [
+            "Cena en el suelo", 
+            "Postura de rodillas 10 min", 
+            "Aislamiento total 20 min", 
+            "Sin privilegios"
+        ]
+    },
+    "correctivos": {
+        "soft": [
+            "10 flexiones", 
+            "Plancha 1 min", 
+            "Limpiar calzado", 
+            "Carta de disculpa", 
+            "Rincón 5 min"
+        ],
+        "medium": [
+            "20 sentadillas", 
+            "15 min rincón", 
+            "Brazos en cruz 10 min", 
+            "Tarea doméstica", 
+            "Sin dispositivos"
+        ],
+        "strong": [
+            "Cero ocio 24h", 
+            "Donación caridad", 
+            "Sesión resistencia", 
+            "Cero contacto físico"
+        ]
+    },
+    "sensorial": {
+        "soft": [
+            "Pluma o caricia", 
+            "Hielo leve", 
+            "Masaje podal", 
+            "Ojos cerrados", 
+            "Respiración rítmica"
+        ],
+        "medium": [
+            "Música blanca", 
+            "Contraste térmico", 
+            "Venda parcial", 
+            "Ritmos constantes"
+        ],
+        "strong": [
+            "Privación total 15 min", 
+            "Cera técnica", 
+            "Inmovilidad total", 
+            "Impacto leve"
+        ]
+    }
+}

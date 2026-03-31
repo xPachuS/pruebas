@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Command Deck | Premium</title>
+    <link rel="stylesheet" href="stylecartas.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo">TCD</div>
+        <div class="nav-controls">
+            <div class="status-indicator">Sistema Activo</div>
+            <button id="theme-toggle" class="theme-btn">Modo Claro</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header id="main-header">
+            <h1 class="main-title">The Command Deck</h1>
+            <div class="divider"></div>
+            <p class="subtitle">Elegancia • Autoridad • Disciplina</p>
+        </header>
+
+        <section id="selection-area" class="deck-grid">
+            <div class="deck-card" onclick="seleccionarMazo('protocolo')">
+                <div class="deck-icon">◈</div>
+                <h3>Protocolo</h3>
+                <p>Etiqueta y comportamiento</p>
+            </div>
+            <div class="deck-card" onclick="seleccionarMazo('correctivos')">
+                <div class="deck-icon">⚖</div>
+                <h3>Correctivos</h3>
+                <p>Disciplina y tareas</p>
+            </div>
+            <div class="deck-card" onclick="seleccionarMazo('sensorial')">
+                <div class="deck-icon">✺</div>
+                <h3>Sensorial</h3>
+                <p>Sentidos y límites</p>
+            </div>
+        </section>
+
+        <section id="play-area" class="hidden">
+            <div id="table">
+                <p class="counter">Orden <span id="current-count">0</span> de 8</p>
+                <div id="deck-container"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="scriptcartas.js"></script>
+</body>
+</html>
