@@ -279,7 +279,7 @@ const contratos = {
 - Stăpânul/Stăpâna își menține libertatea totală asupra propriului corp și a relațiilor, putând lua alți supuși sau iubiți dacă dorește, acționând cu bun simț în ceea ce privește sănătatea sexuală a ambelor părți.
 `},
       { titulo: 'H) Încetarea și Modificarea Contractului', texto: `
-- Acest contract poate fi renegociat sau modificat în orice moment atâta timp cât există un acord reciproc.
+- Acest contract poate fi renegociat sau modificato în orice moment atâta timp cât există un acord reciproc.
 - Oricare dintre părți poate pune capăt acestei dinamici și poate dizolva acest contract în orice moment, comunicând acest lucru clar și fără echivoc celeilalte părți. În acest caz, toate obligațiile de supunere și dominație vor înceta.
 `}
     ],
