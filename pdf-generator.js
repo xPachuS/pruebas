@@ -8,7 +8,7 @@ const pdfI18n = {
 
 function generateContractPDF(data) {
   const { jsPDF } = window.jspdf;
-  const { lang, domGender, subGender, domme, sub, safeword, duration, exclusivity, consentedLines, nonconsentedLines, dailyTasksLines, uiTranslations } = data;
+  const { lang, domGender, subGender, domme, sub, safeword, duration, exclusivity, consentedLines, nonconsentedLines, dailyTasksLines, uiTranslations, watermark, watermarkWidth, watermarkHeight } = data;
   const ui = pdfI18n[lang];
 
   const locales = { es: 'es-ES', en: 'en-US', de: 'de-DE', it: 'it-IT', ro: 'ro-RO' };
@@ -26,7 +26,6 @@ function generateContractPDF(data) {
       t = t.replaceAll('al Amo/Ama', domGender === 'Amo' ? 'al Amo' : 'a la Ama');
       t = t.replaceAll('del Amo/Ama', domGender === 'Amo' ? 'del Amo' : 'de la Ama');
       t = t.replaceAll('Amo/Ama', domGender); 
-      
       t = t.replaceAll('El Sumiso / la Sumisa', subGender === 'Sumiso' ? 'El Sumiso' : 'La Sumisa');
       t = t.replaceAll('El Sumiso/a', subGender === 'Sumiso' ? 'El Sumiso' : 'La Sumisa');
       t = t.replaceAll('Al Sumiso/a', subGender === 'Sumiso' ? 'Al Sumiso' : 'A la Sumisa');
@@ -71,13 +70,9 @@ function generateContractPDF(data) {
       t = t.replaceAll('Supusul/a', subGender === 'Sumiso' ? 'Supusul' : 'Supusa');
       t = t.replaceAll('Supus/ă', subGender === 'Sumiso' ? 'Supus' : 'Supusă');
       t = t.replaceAll('meu/mea', subGender === 'Sumiso' ? 'meu' : 'mea');
-      
-      t = t.replace(/ă/g, 'a').replace(/Ă/g, 'A')
-           .replace(/â/g, 'a').replace(/Â/g, 'A')
-           .replace(/î/g, 'i').replace(/Î/g, 'I')
-           .replace(/ș/g, 's').replace(/Ș/g, 'S')
-           .replace(/ț/g, 't').replace(/Ț/g, 'T')
-           .replace(/ş/g, 's').replace(/Ş/g, 'S') 
+      t = t.replace(/ă/g, 'a').replace(/Ă/g, 'A').replace(/â/g, 'a').replace(/Â/g, 'A')
+           .replace(/î/g, 'i').replace(/Î/g, 'I').replace(/ș/g, 's').replace(/Ș/g, 'S')
+           .replace(/ț/g, 't').replace(/Ț/g, 'T').replace(/ş/g, 's').replace(/Ş/g, 'S') 
            .replace(/ţ/g, 't').replace(/Ţ/g, 'T');
     }
     return t;
@@ -90,10 +85,39 @@ function generateContractPDF(data) {
   const contentWidth = pageWidth - 2 * margin;
   let y = 30;
 
+  // --- LÓGICA DE LA MARCA DE AGUA ---
+  const applyWatermark = () => {
+    if (watermark) {
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({opacity: 0.15})); // 15% de opacidad
+      
+      const imgRatio = watermarkWidth / watermarkHeight;
+      let w = 120; // Ancho máximo
+      let h = w / imgRatio;
+      
+      if (h > 150) { // Si es muy alta, ajustamos por el alto
+         h = 150;
+         w = h * imgRatio;
+      }
+      
+      const x = (pageWidth - w) / 2;
+      const yImg = (pageHeight - h) / 2;
+      
+      doc.addImage(watermark, x, yImg, w, h);
+      doc.restoreGraphicsState();
+    }
+  };
+
+  // Función modificada para aplicar la marca al añadir página
+  function addPageWithWatermark() {
+    doc.addPage();
+    applyWatermark();
+    y = margin + 10;
+  }
+
   function checkPageBreak(extraSpace = 0) {
     if (y + extraSpace > pageHeight - margin) {
-      doc.addPage();
-      y = margin + 10;
+      addPageWithWatermark();
       return true;
     }
     return false;
@@ -186,6 +210,9 @@ function generateContractPDF(data) {
     y += 3;
   }
 
+  // APLICAR MARCA DE AGUA EN LA PRIMERA PÁGINA
+  applyWatermark();
+
   const currentContract = contratos[lang];
 
   doc.setFont('times', 'bold');
@@ -206,7 +233,7 @@ function generateContractPDF(data) {
   let duracionText = ui.durationText.replace('${duration}', duration);
   let durHeight = calculateTextHeight(ui.durationTitle, 13, true) + 1 + calculateTextHeight(duracionText, 11, false, 6) + 6;
   
-  if (y + durHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+  if (y + durHeight > pageHeight - margin) { addPageWithWatermark(); }
   
   doc.setTextColor(0, 0, 0);
   addText(ui.durationTitle, 13, true);
@@ -229,7 +256,7 @@ function generateContractPDF(data) {
     });
     blockHeight += 4;
 
-    if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+    if (y + blockHeight > pageHeight - margin) { addPageWithWatermark(); }
 
     doc.setTextColor(0, 0, 0);
     addText(seccion.titulo, 13, true);
@@ -264,7 +291,7 @@ function generateContractPDF(data) {
     });
     exclHeight += 6;
 
-    if (y + exclHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+    if (y + exclHeight > pageHeight - margin) { addPageWithWatermark(); }
 
     doc.setTextColor(0, 0, 0);
     addText(tituloExclusividad, 13, true);
@@ -287,7 +314,7 @@ function generateContractPDF(data) {
     dailyTasksLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
     blockHeight += 10;
     
-    if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+    if (y + blockHeight > pageHeight - margin) { addPageWithWatermark(); }
 
     addText(tasksTitle, 13, true);
     y += 1;
@@ -297,21 +324,13 @@ function generateContractPDF(data) {
 
   // --- NUEVA HOJA: ANEXO DE PRÁCTICAS Y LÍMITES ---
   if (consentedLines.length > 0 || nonconsentedLines.length > 0) {
-    doc.addPage();
-    y = margin + 10;
+    addPageWithWatermark();
 
-    // Título del Anexo con estilo
     doc.setFont('times', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(212, 175, 127); // Dorado
     
-    let anexoTitles = {
-      es: 'ANEXO: LÍMITES Y PRÁCTICAS',
-      en: 'ANNEX: LIMITS AND PRACTICES',
-      de: 'ANHANG: GRENZEN UND PRAKTIKEN',
-      it: 'ALLEGATO: LIMITI E PRATICHE',
-      ro: 'ANEXĂ: LIMITE ȘI PRACTICI'
-    };
+    let anexoTitles = { es: 'ANEXO: LÍMITES Y PRÁCTICAS', en: 'ANNEX: LIMITS AND PRACTICES', de: 'ANHANG: GRENZEN UND PRAKTIKEN', it: 'ALLEGATO: LIMITI E PRATICHE', ro: 'ANEXĂ: LIMITE ȘI PRACTICI' };
     
     doc.text(anexoTitles[lang], pageWidth / 2, y, { align: 'center' });
     y += 6;
@@ -320,26 +339,22 @@ function generateContractPDF(data) {
     doc.line(margin, y, pageWidth - margin, y);
     y += 15;
 
-    // Prácticas Consentidas
     if (consentedLines.length > 0) {
       doc.setTextColor(0, 0, 0);
       addText(ui.practicesCon, 13, true);
       y += 2;
       consentedLines.forEach(item => {
-        doc.setTextColor(60, 60, 60); // Gris oscuro para las prácticas
+        doc.setTextColor(60, 60, 60); 
         addText(`• ${item}`, 11, false, 'left', 6);
       });
-      y += 10; // Espaciado extra antes de la siguiente sección
+      y += 10; 
     }
 
-    // Prácticas No Consentidas (Límites Duros)
     if (nonconsentedLines.length > 0) {
       doc.setTextColor(0, 0, 0);
-      
-      // Control de salto de página dentro del anexo por si son muchas
       let blockHeight = calculateTextHeight(ui.practicesNon, 13, true) + 1;
       nonconsentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
-      if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+      if (y + blockHeight > pageHeight - margin) { addPageWithWatermark(); }
 
       addText(ui.practicesNon, 13, true);
       y += 2;
@@ -352,8 +367,7 @@ function generateContractPDF(data) {
   }
 
   // --- SECCIÓN DE FIRMAS ---
-  doc.addPage();
-  y = margin + 10;
+  addPageWithWatermark();
   
   const colWidth = (contentWidth / 2) - 10;
   doc.setFont('times', 'italic');
