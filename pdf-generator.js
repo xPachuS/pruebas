@@ -245,6 +245,42 @@ function generateContractPDF(data) {
     y += 4;
   });
 
+  // --- NUEVA SECCIÓN: REGLAS DE EXCLUSIVIDAD (Punto I) ---
+  if (currentContract.reglasExclusividad) {
+    let tituloExclusividad = currentContract.reglasExclusividad.titulo;
+    let textoExclusividad = exclusivity === 'total' 
+      ? currentContract.reglasExclusividad.total 
+      : currentContract.reglasExclusividad.abierta;
+
+    let exclHeight = calculateTextHeight(tituloExclusividad, 13, true) + 1;
+    const lineasExcl = textoExclusividad.split('\n').filter(l => l.trim() !== '');
+    
+    lineasExcl.forEach(linea => {
+      if (linea.trim().startsWith('-')) {
+        exclHeight += calculateTextHeight(linea.replace('-', '•').trim(), 11, false, 6);
+      } else {
+        exclHeight += calculateTextHeight(linea, 11, false, 0);
+      }
+    });
+    exclHeight += 6;
+
+    if (y + exclHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+
+    doc.setTextColor(0, 0, 0);
+    addText(tituloExclusividad, 13, true);
+    y += 1;
+
+    lineasExcl.forEach(linea => {
+      if (linea.trim().startsWith('-')) {
+        addText(linea.replace('-', '•').trim(), 11, false, 'left', 6);
+      } else {
+        addText(linea, 11, false, 'left');
+      }
+    });
+    y += 6;
+  }
+
+  // --- SECCIÓN: PRÁCTICAS CONSENTIDAS ---
   if (consentedLines.length > 0) {
     let blockHeight = calculateTextHeight(ui.practicesCon, 13, true) + 1;
     consentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
@@ -257,6 +293,7 @@ function generateContractPDF(data) {
     y += 4;
   }
 
+  // --- SECCIÓN: PRÁCTICAS NO CONSENTIDAS ---
   if (nonconsentedLines.length > 0) {
     let blockHeight = calculateTextHeight(ui.practicesNon, 13, true) + 1;
     nonconsentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
@@ -269,20 +306,7 @@ function generateContractPDF(data) {
     y += 6;
   }
 
-  // Reglas de Exclusividad
-  let textoExclusividad = "";
-  if (exclusivity === 'total') textoExclusividad = uiTranslations[lang].exclTotal;
-  if (exclusivity === 'open') textoExclusividad = uiTranslations[lang].exclOpen;
-
-  let exclHeight = calculateTextHeight(uiTranslations[lang].excl, 13, true) + 1 + calculateTextHeight(textoExclusividad, 11, false, 6) + 6;
-  if (y + exclHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
-  
-  addText(uiTranslations[lang].excl, 13, true);
-  y += 1;
-  addText(textoExclusividad, 11, false, 'left', 6);
-  y += 6;
-
-  // Tareas Diarias / Rituales
+  // --- SECCIÓN: TAREAS DIARIAS ---
   if (dailyTasksLines.length > 0) {
     let tasksTitle = uiTranslations[lang].tasks.replace('(Opcional)','').replace('(Optional)','').replace('(Optionale)','').replace('(Opzionale)','').replace('(Opțional)','').trim();
     let blockHeight = calculateTextHeight(tasksTitle, 13, true) + 1;
