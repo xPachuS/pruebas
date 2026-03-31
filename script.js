@@ -51,9 +51,16 @@ form.addEventListener('submit', function(e) {
     // 1. Generar y descargar el PDF
     generateContractPDF(contractData);
 
-    // 2. Recargar la página completamente tras 1 segundo para asegurar la descarga
+    // 2. Recargar la página y forzar ir hacia arriba
     setTimeout(() => {
-      window.location.reload();
+      // Desactiva la memoria de scroll del navegador
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      // Fuerza el desplazamiento arriba del todo
+      window.scrollTo(0, 0);
+      // Recarga la página como si fuera la primera visita
+      window.location.href = window.location.pathname;
     }, 1000);
   };
 
