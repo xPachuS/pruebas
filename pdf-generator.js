@@ -245,7 +245,7 @@ function generateContractPDF(data) {
     y += 4;
   });
 
-  // --- NUEVA SECCIÓN: REGLAS DE EXCLUSIVIDAD (Punto I) ---
+  // --- REGLAS DE EXCLUSIVIDAD (Punto I) ---
   if (currentContract.reglasExclusividad) {
     let tituloExclusividad = currentContract.reglasExclusividad.titulo;
     let textoExclusividad = exclusivity === 'total' 
@@ -280,32 +280,6 @@ function generateContractPDF(data) {
     y += 6;
   }
 
-  // --- SECCIÓN: PRÁCTICAS CONSENTIDAS ---
-  if (consentedLines.length > 0) {
-    let blockHeight = calculateTextHeight(ui.practicesCon, 13, true) + 1;
-    consentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
-    blockHeight += 4;
-    if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
-
-    addText(ui.practicesCon, 13, true);
-    y += 1;
-    consentedLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
-    y += 4;
-  }
-
-  // --- SECCIÓN: PRÁCTICAS NO CONSENTIDAS ---
-  if (nonconsentedLines.length > 0) {
-    let blockHeight = calculateTextHeight(ui.practicesNon, 13, true) + 1;
-    nonconsentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
-    blockHeight += 6;
-    if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
-
-    addText(ui.practicesNon, 13, true);
-    y += 1;
-    nonconsentedLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
-    y += 6;
-  }
-
   // --- SECCIÓN: TAREAS DIARIAS ---
   if (dailyTasksLines.length > 0) {
     let tasksTitle = uiTranslations[lang].tasks.replace('(Opcional)','').replace('(Optional)','').replace('(Optionale)','').replace('(Opzionale)','').replace('(Opțional)','').trim();
@@ -319,6 +293,62 @@ function generateContractPDF(data) {
     y += 1;
     dailyTasksLines.forEach(item => addText(`• ${item}`, 11, false, 'left', 6));
     y += 10;
+  }
+
+  // --- NUEVA HOJA: ANEXO DE PRÁCTICAS Y LÍMITES ---
+  if (consentedLines.length > 0 || nonconsentedLines.length > 0) {
+    doc.addPage();
+    y = margin + 10;
+
+    // Título del Anexo con estilo
+    doc.setFont('times', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(212, 175, 127); // Dorado
+    
+    let anexoTitles = {
+      es: 'ANEXO: LÍMITES Y PRÁCTICAS',
+      en: 'ANNEX: LIMITS AND PRACTICES',
+      de: 'ANHANG: GRENZEN UND PRAKTIKEN',
+      it: 'ALLEGATO: LIMITI E PRATICHE',
+      ro: 'ANEXĂ: LIMITE ȘI PRACTICI'
+    };
+    
+    doc.text(anexoTitles[lang], pageWidth / 2, y, { align: 'center' });
+    y += 6;
+    doc.setDrawColor(212, 175, 127);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 15;
+
+    // Prácticas Consentidas
+    if (consentedLines.length > 0) {
+      doc.setTextColor(0, 0, 0);
+      addText(ui.practicesCon, 13, true);
+      y += 2;
+      consentedLines.forEach(item => {
+        doc.setTextColor(60, 60, 60); // Gris oscuro para las prácticas
+        addText(`• ${item}`, 11, false, 'left', 6);
+      });
+      y += 10; // Espaciado extra antes de la siguiente sección
+    }
+
+    // Prácticas No Consentidas (Límites Duros)
+    if (nonconsentedLines.length > 0) {
+      doc.setTextColor(0, 0, 0);
+      
+      // Control de salto de página dentro del anexo por si son muchas
+      let blockHeight = calculateTextHeight(ui.practicesNon, 13, true) + 1;
+      nonconsentedLines.forEach(item => blockHeight += calculateTextHeight(`• ${item}`, 11, false, 6));
+      if (y + blockHeight > pageHeight - margin) { doc.addPage(); y = margin + 10; }
+
+      addText(ui.practicesNon, 13, true);
+      y += 2;
+      nonconsentedLines.forEach(item => {
+        doc.setTextColor(60, 60, 60);
+        addText(`• ${item}`, 11, false, 'left', 6);
+      });
+      y += 10;
+    }
   }
 
   // --- SECCIÓN DE FIRMAS ---
