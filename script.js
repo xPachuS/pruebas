@@ -11,16 +11,10 @@ form.addEventListener('submit', function(e) {
   const safeword = document.getElementById('safeword').value.trim().toUpperCase();
   const duration = document.getElementById('duration').value.trim();
   const exclusivity = document.getElementById('exclusivity').value;
+  const watermarkFile = document.getElementById('watermark').files[0];
 
-  // Validación: Si el campo oculto de exclusividad está vacío
   if (!exclusivity) {
-    const errorMsg = {
-      es: "Error: Debes seleccionar una regla de exclusividad.",
-      en: "Error: You must select an exclusivity rule.",
-      de: "Fehler: Sie müssen eine Exklusivitätsregel auswählen.",
-      it: "Errore: Devi selezionare una regola di esclusività.",
-      ro: "Eroare: Trebuie să selectați o regulă de exclusivitate."
-    };
+    const errorMsg = { es: "Error: Debes seleccionar una regla de exclusividad.", en: "Error: You must select an exclusivity rule.", de: "Fehler: Sie müssen eine Exklusivitätsregel auswählen.", it: "Errore: Devi selezionare una regola di esclusività.", ro: "Eroare: Trebuie să selectați o regulă de exclusivitate." };
     alert(errorMsg[lang] || errorMsg.es);
     return;
   }
@@ -41,48 +35,45 @@ form.addEventListener('submit', function(e) {
   const nonconsentedLines = document.getElementById('nonconsented').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
   const dailyTasksLines = document.getElementById('dailyTasks').value.trim().split('\n').filter(l => l.trim() !== '').map(formatPractice);
 
-  const contractData = {
-    lang,
-    domGender,
-    subGender,
-    domme,
-    sub,
-    safeword,
-    duration,
-    exclusivity,
-    consentedLines,
-    nonconsentedLines,
-    dailyTasksLines,
-    uiTranslations
+  const executeGeneration = (imgData = null, imgWidth = 0, imgHeight = 0) => {
+    const contractData = {
+      lang, domGender, subGender, domme, sub, safeword, duration, exclusivity,
+      consentedLines, nonconsentedLines, dailyTasksLines, uiTranslations,
+      watermark: imgData, watermarkWidth: imgWidth, watermarkHeight: imgHeight
+    };
+
+    generateContractPDF(contractData);
+
+    // Resetear formulario
+    form.reset();
+    document.getElementById('domGender-display').value = '';
+    document.getElementById('domGender-display').setAttribute('value', '');
+    document.getElementById('subGender-display').value = '';
+    document.getElementById('subGender-display').setAttribute('value', '');
+    document.getElementById('exclusivity-display').value = '';
+    document.getElementById('exclusivity-display').setAttribute('value', '');
+    document.getElementById('lang-display').value = 'Español';
+    document.getElementById('lang-display').setAttribute('value', 'Español');
+    document.getElementById('language').value = 'es';
+    document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+    const spanishOption = document.querySelector('.custom-option[data-value="es"]');
+    if (spanishOption) spanishOption.classList.add('selected');
+    const event = new Event('change');
+    document.getElementById('language').dispatchEvent(event);
   };
 
-  // 1. Generar el PDF
-  generateContractPDF(contractData);
-
-  // 2. Resetear el formulario nativo (limpia inputs y textareas)
-  form.reset();
-
-  // 3. Resetear visualmente los menús desplegables personalizados
-  document.getElementById('domGender-display').value = '';
-  document.getElementById('domGender-display').setAttribute('value', '');
-  
-  document.getElementById('subGender-display').value = '';
-  document.getElementById('subGender-display').setAttribute('value', '');
-  
-  document.getElementById('exclusivity-display').value = '';
-  document.getElementById('exclusivity-display').setAttribute('value', '');
-
-  // 4. Restaurar el idioma por defecto (Español)
-  document.getElementById('lang-display').value = 'Español';
-  document.getElementById('lang-display').setAttribute('value', 'Español');
-  document.getElementById('language').value = 'es';
-
-  // 5. Restaurar la clase 'selected' en el menú de idiomas
-  document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
-  const spanishOption = document.querySelector('.custom-option[data-value="es"]');
-  if (spanishOption) spanishOption.classList.add('selected');
-
-  // 6. Forzar la traducción de la UI de vuelta al español
-  const event = new Event('change');
-  document.getElementById('language').dispatchEvent(event);
+  // Leer imagen si el usuario la subió
+  if (watermarkFile) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        executeGeneration(event.target.result, img.width, img.height);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(watermarkFile);
+  } else {
+    executeGeneration();
+  }
 });
