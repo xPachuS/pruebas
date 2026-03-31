@@ -38,15 +38,20 @@ const contratos = {
 - La comunicación abierta es el pilar de este acuerdo. El Sumiso/a debe poder expresar sus miedos, inseguridades o ansiedades al Amo/Ama sin miedo a ser castigado por sus sentimientos.
 - Se establecerán momentos regulares (check-ins) para revisar la dinámica, discutir qué funciona, qué debe mejorar y si es necesario reajustar los límites.
 `},
-      { titulo: 'G) Exclusividad y Otras Relaciones', texto: `
-- El Sumiso/a guardará exclusividad física, sexual y de servicio hacia el Amo/Ama, a menos que el Amo/Ama otorgue un permiso explícito y previo para lo contrario.
+      { titulo: 'G) Exclusividad y Otras Relaciones (General)', texto: `
+- Las directrices específicas de exclusividad o relaciones con terceros se regirán por el anexo seleccionado en el punto I del presente acuerdo. 
 - El Amo/Ama mantiene su total libertad sobre su propio cuerpo y relaciones, pudiendo tomar otros sumisos/as o amantes si así lo desea, actuando con sensatez respecto a la salud sexual de ambas partes.
 `},
       { titulo: 'H) Terminación y Modificación del Contrato', texto: `
 - Este contrato puede ser renegociado o modificado en cualquier momento siempre que exista mutuo acuerdo.
-- Cualquiera de las partes puede dar por terminada esta dinámica y disolver este contrato en cualquier momento, comunicándolo de forma clara e inequívoca a la otra parte. In tal caso, cesarán todas las obligaciones de sumisión y dominio.
+- Cualquiera de las partes puede dar por terminada esta dinámica y disolver este contrato en cualquier momento, comunicándolo de forma clara e inequívoca a la otra parte. En tal caso, cesarán todas las obligaciones de sumisión y dominio.
 `}
     ],
+    reglasExclusividad: {
+      titulo: 'I) Reglas de Exclusividad y Dinámica',
+      total: `- El Sumiso/a se compromete a mantener una devoción y exclusividad absoluta —física, emocional, sexual y de servicio— hacia el Amo/Ama. Queda estrictamente prohibida cualquier interacción de naturaleza sexual, romántica o de sumisión con terceras personas. El cuerpo y la voluntad del Sumiso/a pertenecen de manera exclusiva al Amo/Ama durante la vigencia de este contrato.`,
+      abierta: `- Se acuerda explícitamente una dinámica abierta. Ambas partes conservan la libertad de mantener relaciones físicas, sexuales o afectivas con terceras personas. El Sumiso/a debe informar al Amo/Ama sobre estas interacciones con total transparencia y honestidad. Ninguna relación externa eximirá al Sumiso/a de cumplir con sus deberes y obligaciones hacia el Amo/Ama, priorizando siempre la protección y la salud sexual mutua.`
+    },
     firmas: {
       sumiso: `Declaro por mi honor que he leído este documento en su totalidad, que comprendo sus implicaciones y que acepto sus términos libremente, sin coacción alguna. Renuncio voluntariamente a mi propio control para entregarlo a mi Amo/Ama, confiando plenamente en su criterio, en su firmeza y en su protección. Prometo lealtad, obediencia y entrega.`,
       ama: `Declaro que acepto el control, la sumisión y el servicio que se me ofrecen. Entiendo la vulnerabilidad que este acto representa y asumo la responsabilidad de liderar, disciplinar y proteger a mi Sumiso/a. Prometo ejercer mi dominio con firmeza, justicia, cuidado y respeto por los límites que hemos establecido juntos.`
@@ -92,8 +97,8 @@ const contratos = {
 - Open communication is the pillar of this agreement. The Submissive must be able to express their fears, insecurities, or anxieties to the Dom/Domme without fear of being punished for their feelings.
 - Regular moments (check-ins) will be established to review the dynamic, discuss what works, what needs improvement, and if it is necessary to readjust limits.
 `},
-      { titulo: 'G) Exclusivity and Other Relationships', texto: `
-- The Submissive will maintain physical, sexual, and service exclusivity towards the Dom/Domme, unless the Dom/Domme grants explicit and prior permission to the contrary.
+      { titulo: 'G) Exclusivity and Other Relationships (General)', texto: `
+- The specific guidelines for exclusivity or relationships with third parties will be governed by the annex selected in point I of this agreement.
 - The Dom/Domme maintains total freedom over their own body and relationships, being able to take other submissives or lovers if they so desire, acting sensibly regarding the sexual health of both parties.
 `},
       { titulo: 'H) Termination and Modification of the Contract', texto: `
@@ -101,6 +106,11 @@ const contratos = {
 - Either party can terminate this dynamic and dissolve this contract at any time, communicating it clearly and unequivocally to the other party. In such a case, all obligations of submission and dominance will cease.
 `}
     ],
+    reglasExclusividad: {
+      titulo: 'I) Exclusivity Rules and Dynamics',
+      total: `- The Submissive commits to maintaining absolute devotion and exclusivity—physical, emotional, sexual, and in service—towards the Dom/Domme. Any interaction of a sexual, romantic, or submissive nature with third parties is strictly prohibited. The body and will of the Submissive belong exclusively to the Dom/Domme during the term of this contract.`,
+      abierta: `- An open dynamic is explicitly agreed upon. Both parties retain the freedom to maintain physical, sexual, or affectionate relationships with third parties. The Submissive must inform the Dom/Domme about these interactions with total transparency and honesty. No external relationship shall exempt the Submissive from fulfilling their duties and obligations towards the Dom/Domme, always prioritizing mutual protection and sexual health.`
+    },
     firmas: {
       sumiso: `I declare upon my honor that I have read this document in its entirety, that I understand its implications, and that I freely accept its terms without any coercion. I voluntarily surrender my own control to hand it over to my Dom/Domme, fully trusting in their judgment, firmness, and protection. I promise loyalty, obedience, and surrender.`,
       ama: `I declare that I accept the control, submission, and service offered to me. I understand the vulnerability this act represents and assume the responsibility to lead, discipline, and protect my Submissive. I promise to exercise my dominance with firmness, justice, care, and respect for the limits we have established together.`
@@ -146,8 +156,8 @@ const contratos = {
 - Offene Kommunikation ist der Pfeiler dieser Vereinbarung. Der/die Sub muss in der Lage sein, seine/ihre Ängste, Unsicherheiten oder Sorgen dem Dom / der Domme gegenüber auszudrücken, ohne Angst vor Bestrafung für seine/ihre Gefühle haben zu müssen.
 - Es werden regelmäßige Momente (Check-ins) festgelegt, um die Dynamik zu überprüfen, zu besprechen, was funktioniert, was verbessert werden muss und ob es notwendig ist, Grenzen neu anzupassen.
 `},
-      { titulo: 'G) Exklusivität und andere Beziehungen', texto: `
-- Der/die Sub bewahrt physische, sexuelle und dienstliche Exklusivität gegenüber dem Dom / der Domme, es sei denn, der Dom / die Domme erteilt ausdrücklich und im Voraus eine gegenteilige Erlaubnis.
+      { titulo: 'G) Exklusivität und andere Beziehungen (Allgemein)', texto: `
+- Die spezifischen Richtlinien für Exklusivität oder Beziehungen zu Dritten richten sich nach dem in Punkt I dieser Vereinbarung ausgewählten Anhang.
 - Der Dom / die Domme behält die absolute Freiheit über seinen/ihren eigenen Körper und seine/ihre Beziehungen und kann nach Wunsch andere Subs oder Liebhaber nehmen, wobei er/sie in Bezug auf die sexuelle Gesundheit beider Parteien vernünftig handelt.
 `},
       { titulo: 'H) Beendigung und Änderung des Vertrages', texto: `
@@ -155,6 +165,11 @@ const contratos = {
 - Jede Partei kann diese Dynamik jederzeit beenden und diesen Vertrag auflösen, indem sie dies der anderen Partei klar und unmissverständlich mitteilt. In einem solchen Fall enden alle Pflichten der Unterwerfung und Dominanz.
 `}
     ],
+    reglasExclusividad: {
+      titulo: 'I) Exklusivitätsregeln und Dynamik',
+      total: `- Der/die Sub verpflichtet sich zu absoluter Hingabe und Exklusivität – körperlich, emotional, sexuell und in Bezug auf den Dienst – gegenüber dem Dom / der Domme. Jegliche sexuelle, romantische oder unterwürfige Interaktion mit Dritten ist strengstens untersagt. Der Körper und der Wille des/der Sub gehören für die Dauer dieses Vertrages ausschließlich dem Dom / der Domme.`,
+      abierta: `- Es wird ausdrücklich eine offene Dynamik vereinbart. Beide Parteien behalten die Freiheit, körperliche, sexuelle oder emotionale Beziehungen mit Dritten zu führen. Der/die Sub muss den Dom / die Domme mit völliger Transparenz und Ehrlichkeit über diese Interaktionen informieren. Keine externe Beziehung entbindet den/die Sub von der Erfüllung seiner/ihrer Pflichten und Obliegenheiten gegenüber dem Dom / der Domme, wobei der gegenseitige Schutz und die sexuelle Gesundheit stets Vorrang haben.`
+    },
     firmas: {
       sumiso: `Ich erkläre bei meiner Ehre, dass ich dieses Dokument in seiner Gesamtheit gelesen habe, dass ich seine Implikationen verstehe und dass ich seine Bedingungen frei und ohne jeglichen Zwang akzeptiere. Ich gebe freiwillig meine eigene Kontrolle auf, um sie dem Dom / der Domme zu übergeben, und vertraue voll und ganz auf sein/ihr Urteilsvermögen, seine/ihre Festigkeit und seinen/ihren Schutz. Ich verspreche Loyalität, Gehorsam und Hingabe.`,
       ama: `Ich erkläre, dass ich die Kontrolle, die Unterwerfung und den Dienst, die mir angeboten werden, annehme. Ich verstehe die Verletzlichkeit, die dieser Akt darstellt, und übernehme die Verantwortung, den/die Sub zu führen, zu disziplinieren und zu schützen. Ich verspreche, meine Dominanz mit Festigkeit, Gerechtigkeit, Fürsorge und Respekt für die Grenzen auszuüben, die wir gemeinsam festgelegt haben.`
@@ -187,7 +202,7 @@ const contratos = {
       { titulo: 'D) Responsabilità e Privilegi del Padrone/della Padrona', texto: `
 - Rivendicare la proprietà consensuale sul corpo, sull'attenzione e sul servizio del Sottomesso/a per il proprio piacere, comfort o convenienza.
 - Proteggere, curare e vegliare sul benessere fisico, emotivo e psicologico del Sottomesso/a.
-- Prestare attenzione ai limiti e alle capacità del Sottomesso/a, spingendolo/a a crescere ma senza metterlo/a in un riesgo reale non pattuito.
+- Prestare attenzione ai limiti e alle capacità del Sottomesso/a, spingendolo/a a crescere ma senza metterlo/a in un rischio reale non pattuito.
 - Amministrare la disciplina in modo giusto, proporzionato e senza rabbia incontrollata.
 - Fornire le cure successive (Aftercare) necessarie dopo sessioni intense, fisiche o psicologiche, per assicurare il ritorno del Sottomesso/a a uno stato di calma emotiva.
 `},
@@ -200,8 +215,8 @@ const contratos = {
 - La comunicazione aperta è il pilastro di questo accordo. Il Sottomesso/a deve poter esprimere le proprie paure, insicurezze o ansie al Padrone/alla Padrona senza paura di essere punito/a per i suoi sentimenti.
 - Saranno stabiliti momenti regolari (check-in) per rivedere la dinamica, discutere su cosa funziona, cosa deve migliorare e se è necessario riadattare i limiti.
 `},
-      { titulo: 'G) Esclusività e Altre Relazioni', texto: `
-- Il Sottomesso/a manterrà l'esclusività fisica, sessuale e di servizio verso il Padrone/la Padrona, a meno che il Padrone/la Padrona non conceda un permesso esplicito e preventivo per il contrario.
+      { titulo: 'G) Esclusività e Altre Relazioni (Generale)', texto: `
+- Le linee guida specifiche per l'esclusività o i rapporti con terzi saranno regolate dall'allegato selezionato al punto I del presente accordo.
 - Il Padrone/la Padrona mantiene la sua totale libertà sul proprio corpo e sulle relazioni, potendo prendere altri sottomessi o amanti se lo desidera, agendo con buon senso rispetto alla salute sessuale di entrambe le parti.
 `},
       { titulo: 'H) Risoluzione e Modifica del Contratto', texto: `
@@ -209,6 +224,11 @@ const contratos = {
 - Ciascuna delle parti può porre fine a questa dinamica e sciogliere questo contratto in qualsiasi momento, comunicandolo in modo chiaro e inequivocabile all'altra parte. In tal caso, cesseranno tutti gli obblighi di sottomissione e dominio.
 `}
     ],
+    reglasExclusividad: {
+      titulo: 'I) Regole di Esclusività e Dinamica',
+      total: `- Il Sottomesso/a si impegna a mantenere devozione ed esclusività assolute — fisiche, emotive, sessuali e di servizio — verso il Padrone/la Padrona. È severamente vietata qualsiasi interazione di natura sessuale, romantica o di sottomissione con terzi. Il corpo e la volontà del Sottomesso/a appartengono esclusivamente al Padrone/alla Padrona per la durata del presente contratto.`,
+      abierta: `- Si concorda esplicitamente una dinamica aperta. Entrambe le parti mantengono la libertà di avere relazioni fisiche, sessuali o affettive con terzi. Il Sottomesso/a deve informare il Padrone/la Padrona di queste interazioni con totale trasparenza e onestà. Nessuna relazione esterna esimerà il Sottomesso/a dall'adempiere ai propri doveri e obblighi verso il Padrone/la Padrona, dando sempre priorità alla protezione reciproca e alla salute sessuale.`
+    },
     firmas: {
       sumiso: `Dichiaro sul mio onore di aver letto questo documento nella sua interezza, di comprenderne le implicazioni e di accettarne liberamente i termini senza alcuna coercizione. Rinuncio volontariamente al mio stesso controllo per consegnarlo al Padrone/alla Padrona, confidando pienamente nel suo giudizio, nella sua fermezza e nella sua protezione. Prometto lealtà, obbedienza e dedizione.`,
       ama: `Dichiaro di accettare il controllo, la sottomissione e il servizio che mi vengono offerti. Comprendo la vulnerabilità che questo atto rappresenta e mi assumo la responsabilità di guidare, disciplinare e proteggere il Sottomesso/a. Prometto di esercitare il mio dominio con fermezza, giustizia, cura e rispetto per i limiti che abbiamo stabilito insieme.`
@@ -248,14 +268,14 @@ const contratos = {
       { titulo: 'E) Disciplină și Pedepse', texto: `
 - Supusul/a recunoaște că comiterea de greșeli, neascultarea sau afișarea unor atitudini lipsite de respect va duce la aplicarea de măsuri disciplinare.
 - Stăpânul/Stăpâna are puterea exclusivă de a determina natura și severitatea pedepsei, respectând întotdeauna Limitele Dure.
-- Pedeapsa nu este un act de ură, si o corecție pentru a restabili dinamica și a șterge vina Supusului/ei. Odată îndeplinită pedeapsa, greșeala este considerată iertată.
+- Pedeapsa nu este un act de ură, ci o corecție pentru a restabili dinamica și a șterge vina Supusului/ei. Odată îndeplinită pedeapsa, greșeala este considerată iertată.
 `},
       { titulo: 'F) Transparență și Comunicare', texto: `
 - Comunicarea deschisă este pilonul acestui acord. Supusul/a trebuie să își poată exprima fricile, nesiguranțele sau anxietățile față de Stăpân/ă fără frica de a fi pedepsit pentru sentimentele sale.
-- Se vor stabili momente regulate (check-ins) para a revizui dinamica, a discuta ce funcționează, ce trebuie îmbunătățit și dacă este necesar să se reajusteze limitele.
+- Se vor stabili momente regulate (check-ins) pentru a revizui dinamica, a discuta ce funcționează, ce trebuie îmbunătățit și dacă este necesar să se reajusteze limitele.
 `},
-      { titulo: 'G) Exclusivitate și Alte Relații', texto: `
-- Supusul/a va păstra exclusivitatea fizică, sexuală și de serviciu față de Stăpân/ă, cu excepția cazului în care Stăpânul/Stăpâna acordă o permisiune explicită și prealabilă pentru contrariul.
+      { titulo: 'G) Exclusivitate și Alte Relații (General)', texto: `
+- Liniile directoare specifice pentru exclusivitate sau relații cu terți vor fi guvernate de anexa selectată la punctul I al acestui acord.
 - Stăpânul/Stăpâna își menține libertatea totală asupra propriului corp și a relațiilor, putând lua alți supuși sau iubiți dacă dorește, acționând cu bun simț în ceea ce privește sănătatea sexuală a ambelor părți.
 `},
       { titulo: 'H) Încetarea și Modificarea Contractului', texto: `
@@ -263,6 +283,11 @@ const contratos = {
 - Oricare dintre părți poate pune capăt acestei dinamici și poate dizolva acest contract în orice moment, comunicând acest lucru clar și fără echivoc celeilalte părți. În acest caz, toate obligațiile de supunere și dominație vor înceta.
 `}
     ],
+    reglasExclusividad: {
+      titulo: 'I) Reguli de Exclusivitate și Dinamică',
+      total: `- Supusul/a se angajează să mențină devotament și exclusivitate absolută — fizică, emoțională, sexuală și de serviciu — față de Stăpân/ă. Orice interacțiune de natură sexuală, romantică sau de supunere cu terțe persoane este strict interzisă. Corpul și voința Supusului/ei aparțin exclusiv Stăpânului/Stăpânei pe durata acestui contract.`,
+      abierta: `- Se agreează explicit o dinamică deschisă. Ambele părți își păstrează libertatea de a menține relații fizice, sexuale sau afective cu terțe persoane. Supusul/a trebuie să informeze Stăpânul/Stăpâna despre aceste interacțiuni cu totală transparență și onestitate. Nicio relație externă nu îl/o va scuti pe Supus/ă de îndeplinirea datoriilor și obligațiilor sale față de Stăpân/ă, prioritizând întotdeauna protecția reciprocă și sănătatea sexuală.`
+    },
     firmas: {
       sumiso: `Declar pe onoarea mea că am citit acest document în întregime, că îi înțeleg implicațiile și că îi accept liber termenii, fără nicio constrângere. Renunț voluntar la propriul meu control pentru a-l preda Stăpânului/Stăpânei, având încredere deplină în judecata, fermitatea și protecția sa. Promit loialitate, ascultare și dăruire.`,
       ama: `Declar că accept controlul, supunerea și serviciul care mi se oferă. Înțeleg vulnerabilitatea pe care o reprezintă acest act și îmi asum responsabilitatea de a conduce, disciplina și proteja Supusul/a. Promit să îmi exercit dominația cu fermitate, dreptate, grijă și respect pentru limitele pe care le-am stabilit împreună.`
